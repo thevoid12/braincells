@@ -2,8 +2,8 @@
 ## The good,bad and the ugly
 
 ### table of context
- - [introduction to concurrency](intro-to-concurrency.md)
-
+ - [Introduction to Concurrency](intro-to-concurrency.md)
+ - [Communicating Sequencial Processes (CSP)](csp.md)
 
 #### references:
 - Concurrency in Go by Katherine Cox-Buday

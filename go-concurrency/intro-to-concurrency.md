@@ -56,11 +56,12 @@ another. In this state, the program will never recover without outside intervent
  - **LiveLock:**
     - Livelocks are programs that are actively performing concurrent operations, but these
 operations do nothing to move the state of the program forward.
+    - Livelock occurs when two or more processes continually repeat the same interaction in response to changes in the other processes without doing any useful work. These processes are not in the waiting state, and they are running concurrently. This is different from a deadlock because in a deadlock all processes are in the waiting state.
+    - A livelock is similar to a deadlock, except that the states of the processes involved in the livelock constantly change with regard to one another, none progressing. Livelock is a special case of resource starvation; the general definition states that a specific process is not progressing.
   - **Starvation:**
     - Starvation is any situation where a concurrent process cannot get all the resources it
 needs to perform work.
-    - Livelocks warrant discussion separate from starvation because in a live‐
-lock, all the concurrent processes are starved equally, and no work is accomplished.
-More broadly, starvation usually implies that there are one or more greedy concur‐
-rent process that are unfairly preventing one or more concurrent processes from
+    - More broadly, starvation usually implies that there are one or more greedy concurrent process that are unfairly preventing one or more concurrent processes from
 accomplishing work as efficiently as possible, or maybe at all.
+    - Starvation is a problem that is closely related to both, Livelock and Deadlock. In a dynamic system, requests for resources keep on happening. Thereby, some policy is needed to make a decision about who gets the resource and when this process, being reasonable, may lead to some processes never getting serviced even though they are not deadlocked. 
+    
