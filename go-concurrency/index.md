@@ -4,6 +4,9 @@
 ### table of context
  - [Introduction to Concurrency](intro-to-concurrency.md)
  - [Communicating Sequencial Processes (CSP)](csp.md)
+ - [Go’s Concurrency Building Blocks](goroutine.md)
+      - [Goroutines](goroutine.md)
+
 
 #### references:
 - Concurrency in Go by Katherine Cox-Buday
