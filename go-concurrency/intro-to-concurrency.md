@@ -9,6 +9,8 @@ demand.
 - Cloud computing brought new challenges, including resource provisioning, communication between instances, and result aggregation. One major hurdle was modeling code for concurrency, especially when solutions ran across multiple machines. Addressing these challenges gave rise to "web scale" software, designed to handle massive workloads by scaling horizontally—adding more instances as needed. This approach enabled features like rolling updates, elastic scalability, and geographic distribution but also added complexity in understanding and ensuring fault tolerance.
 - so by default every program has to have strong parallelism to achieve this.
 
+---
+
 ## Why is Concurrency is hard?
 
 Fortunately everyone runs into the same issues when working with concurrent code.
@@ -64,4 +66,5 @@ needs to perform work.
     - More broadly, starvation usually implies that there are one or more greedy concurrent process that are unfairly preventing one or more concurrent processes from
 accomplishing work as efficiently as possible, or maybe at all.
     - Starvation is a problem that is closely related to both, Livelock and Deadlock. In a dynamic system, requests for resources keep on happening. Thereby, some policy is needed to make a decision about who gets the resource and when this process, being reasonable, may lead to some processes never getting serviced even though they are not deadlocked. 
-    
+
+---
