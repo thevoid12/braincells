@@ -6,6 +6,7 @@
  - [Communicating Sequencial Processes (CSP)](csp.md)
  - [Go’s Concurrency Building Blocks](goroutine.md)
       - [Goroutines](goroutine.md)
+      - [sync Package](sync-pkg.md)
 
 
 #### references:
