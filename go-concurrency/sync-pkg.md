@@ -101,3 +101,203 @@ Reader 1 read sharedData: 2
 Reader 2 read sharedData: 2
 Reader 3 read sharedData: 2
 - > sync.rwmutex is very useful useful for scenarios where read operations dominate, but occasional write operations are needed.
+
+--- 
+## communication and synchronization between goroutines:
+  - In Go, broadcast and signal concepts are used for communication and synchronization between goroutines, typically implemented using channels or sync.Cond. 
+  ### Broadcast:
+  - Broadcast is used to notify multiple goroutines that a specific condition has been met.
+  - When one goroutine signals a broadcast, all waiting goroutines are notified and can proceed.
+  -  The **sync.Cond** type provides a mechanism for broadcasting to multiple goroutines.
+
+      ```go
+      package main
+
+      import (
+        "fmt"
+        "sync"
+        "time"
+      )
+
+      func main() {
+        var mu sync.Mutex
+        cond := sync.NewCond(&mu)
+
+        done := make(chan struct{})
+        var wg sync.WaitGroup
+
+        // Goroutines waiting for the signal
+        for i := 1; i <= 3; i++ {
+          wg.Add(1)
+          go func(id int) {
+            defer wg.Done()
+
+            cond.L.Lock()
+            cond.Wait() // Wait for broadcast signal
+            cond.L.Unlock()
+
+            fmt.Printf("Goroutine %d received broadcast\n", id)
+          }(i)
+        }
+
+        time.Sleep(1 * time.Second)
+
+        // Broadcasting to all waiting goroutines
+        go func() {
+          fmt.Println("Broadcasting to all goroutines")
+          cond.Broadcast()
+          close(done)
+        }()
+
+        wg.Wait()
+        <-done
+        fmt.Println("All goroutines finished")
+      }
+      ```
+      **output:**
+      - The Broadcast method notifies all goroutines waiting on the condition.
+      - Each goroutine unblocks and proceeds after receiving the broadcast.
+      Broadcasting to all goroutines
+      Goroutine 1 received broadcast
+      Goroutine 2 received broadcast
+      Goroutine 3 received broadcast
+      All goroutines finished
+  ### Signal:
+  - unlike broadcast it wakes up only one goroutine. The Signal method notifies one waiting goroutine.
+  ```go
+      package main
+      import (
+        "fmt"
+        "sync"
+        "time"
+      )
+
+      func main() {
+        var mu sync.Mutex
+        cond := sync.NewCond(&mu)
+
+        var wg sync.WaitGroup
+
+        // Goroutines waiting for the signal
+        for i := 1; i <= 3; i++ {
+          wg.Add(1)
+          go func(id int) {
+            defer wg.Done()
+
+            cond.L.Lock()
+            cond.Wait() // Wait for signal
+            cond.L.Unlock()
+
+            fmt.Printf("Goroutine %d received signal\n", id)
+          }(i)
+        }
+
+        time.Sleep(1 * time.Second)
+
+        // Signaling individual goroutines one at a time
+        go func() {
+          for i := 1; i <= 3; i++ {
+            time.Sleep(500 * time.Millisecond)
+            fmt.Println("Signaling one goroutine")
+            cond.Signal()
+          }
+        }()
+
+        wg.Wait()
+        fmt.Println("All goroutines finished")
+      }
+  ```
+**output:**
+Signaling one goroutine
+Goroutine 1 received signal
+Signaling one goroutine
+Goroutine 2 received signal
+Signaling one goroutine
+Goroutine 3 received signal
+All goroutines finished
+note that: The order in which goroutines are woken up depends on the runtime scheduler.
+
+- while sync.cond gives a method do so signalling and broadcasting it is a primitive way (as of everything present in sync package) and a better way to do this is using channels 
+  - ##### broadcast with channel:
+    - ```go
+      package main
+      import (
+        "fmt"
+        "time"
+      )
+
+      func main() {
+        done := make(chan struct{})
+
+        // Goroutines waiting for broadcast
+        for i := 1; i <= 3; i++ {
+          go func(id int) {
+            <-done // Wait for broadcast
+            fmt.Printf("Goroutine %d received broadcast\n", id)
+          }(i)
+        }
+
+        time.Sleep(1 * time.Second)
+
+        // Broadcasting to all goroutines
+        close(done) // Closing the channel broadcasts to all
+        fmt.Println("Broadcast sent to all goroutines")
+        time.Sleep(500 * time.Millisecond)
+      }
+      ```
+      
+   **output:**
+Broadcast sent to all goroutines
+Goroutine 1 received broadcast
+Goroutine 2 received broadcast
+Goroutine 3 received broadcast
+  - ##### signal with channel:
+  ```go
+  package main
+  import (
+    "fmt"
+    "time"
+  )
+
+  func main() {
+    signal := make(chan struct{})
+
+    // Goroutine waiting for signal
+    go func() {
+      <-signal // Wait for signal
+      fmt.Println("Goroutine received signal")
+    }()
+
+    time.Sleep(1 * time.Second)
+
+    // Signaling the goroutine
+    signal <- struct{}{}
+    fmt.Println("Signal sent")
+    time.Sleep(500 * time.Millisecond)
+  }
+  ```
+ **output:**
+Signal sent
+Goroutine received signal
+
+## sync.Once:
+ - sync.Once is a type that utilizes some sync primitives internally
+to ensure that only **one** call to **Do** ever calls the function passed in—even on different
+goroutines.
+
+    ```go
+          var count int
+          increment := func() { count++ }
+          decrement := func() { count-- }
+          var once sync.Once
+          once.Do(increment)
+          once.Do(decrement)
+          fmt.Printf("Count: %d\n", count)
+          This produces:
+          Count: 1
+         
+         
+    ```
+  - This is because sync.Once only
+counts the number of times Do is called, not how many times unique functions passed
+into Do are called. In this way, copies of sync.Once are tightly coupled to the functions they are intended to be called with

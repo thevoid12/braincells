@@ -3,4 +3,5 @@
 #### pre requisite
 aws cloud practitioner 
 
-## INDEX
+### table of context
+- [IAM](iam.md)
