@@ -301,3 +301,8 @@ goroutines.
   - This is because sync.Once only
 counts the number of times Do is called, not how many times unique functions passed
 into Do are called. In this way, copies of sync.Once are tightly coupled to the functions they are intended to be called with
+
+## Pool:
+- a the pool pattern is a way to create and make available a fixed num‐
+ber, or pool, of things for use. It’s commonly used to constrain the creation of things that are expensive (e.g., database connections) so that only a fixed number of them are ever created, but an indeterminate number of operations can still request access to these things.
+- Pool’s primary interface is its **Get** method. When called, Get will first check whether there are any available instances within the pool to return to the caller, and if not, call its New member variable to create a new one. When finished, callers call **Put** to place the instance they were working with back in the pool for use by other processes.
