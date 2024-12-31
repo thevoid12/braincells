@@ -101,3 +101,21 @@ op: Unblocking goroutines...
 3 has begun
 0 has begun
 1 has begun
+
+#### Buffered Channel:
+- there is a fixed size buffer for the channel. atmax the channel can hold n number of data and any new data can be sent in a full buffer only when we remove value from the buffer
+```go
+c := make(chan rune, 4)
+c <- 'A'
+c <- 'B'
+c <- 'C'
+c <- 'D'
+// After four writes, our buffered channel with a capacity of four is full. What happens if we attempt to write to the channel again?
+c <- 'E'
+// The goroutine performing this write is blocked! The goroutine will remain blocked until room is made in the buffer by some goroutine performing a read.
+<-c
+// As you can see, the read receives the first rune that was placed on the channel, A, the write that was blocked becomes unblocked, and E is placed on the end of the buffer.
+```
+Now that you understand the how and why of performing operations on channels, let’s create a handy reference for what the defined behavior of working with channels is.
+
+![image](images/3.png)
