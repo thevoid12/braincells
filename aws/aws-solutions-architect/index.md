@@ -8,3 +8,4 @@ practitioner exam
 ### table of context
 - [IAM](iam.md)
 - [EC2](ec2.md)
+- [EC2 Instance Storage](ec2-storage.md)
