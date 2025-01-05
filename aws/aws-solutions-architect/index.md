@@ -10,3 +10,4 @@ practitioner exam
 - [EC2](ec2.md)
 - [EC2 Instance Storage](ec2-storage.md)
 - [ELB and AGS](load-balancer.md)
+- [rds,replica,elastic cache](rds_elastic_cache.md)
