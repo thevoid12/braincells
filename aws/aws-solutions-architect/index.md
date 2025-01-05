@@ -9,3 +9,4 @@ practitioner exam
 - [IAM](iam.md)
 - [EC2](ec2.md)
 - [EC2 Instance Storage](ec2-storage.md)
+- [ELB and AGS](load-balancer.md)
