@@ -12,3 +12,4 @@ practitioner exam
 - [ELB and AGS](load-balancer.md)
 - [rds,replica,elastic cache](rds_elastic_cache.md)
 - [route 53](route-53.md)
+- [beanstalk](beanstalk.md)

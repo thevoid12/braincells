@@ -9,6 +9,8 @@
 
 - When Cross-Zone Load Balancing is enabled, ELB distributes traffic evenly across all registered EC2 instances in all AZs.
 
+- we use alias record or cname record for load balancer dns name to point to our ELB
+
 ## Application Load Balancer (ALB):
 - it is a layer 7 load balancer application layer(http https)
 - When using an Application Load Balancer to distribute traffic to your EC2 instances, the IP address you'll receive requests from will be the ALB's private IP addresses. To get the client's IP address, ALB adds an additional header called "X-Forwarded-For" contains the client's IP address
@@ -17,7 +19,7 @@
 #### steps on how it works:
 - **step 1:** create a bunch of instances or a url or a ip where the alb needs to redirect traffic
 - **step 2:** here we will create a bunch of instances. each instance will have its own security group for inbound or outbound trafic filteration.
-- **step3:** group instances or ip or container or whatever toger using target group. ideally the alb will redirect target groups <a href= "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">target group</a>
+- **step3:** group instances or ip or container or whatever together using target group. ideally the alb will redirect target groups <a href= "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">target group</a>
 - **step 4:** so note that alb will also have its own security group
 - **step 5:** you can set up rules on how to route the traffic (based on url,ip,query param etc etc) and you can also set the priority of alb. you can also route to a custom message as well . ALBs can route traffic to different Target Groups based on URL Path, Hostname, HTTP Headers, and Query Strings.
 - **step 6:** we can also make some changes in the security group of the instances such a way that it allows traffic only from the security group of loadbalancer(only from load balancer)
@@ -43,3 +45,5 @@ Server Name Indication (SNI) allows you to expose multiple HTTPS applications ea
 
 ## Auto Scaling Group:
 - You can configure the Auto Scaling Group to determine the EC2 instances' health based on Application Load Balancer Health Checks instead of EC2 Status Checks (default). When an EC2 instance fails the ALB Health Checks, it is marked unhealthy and will be terminated while the ASG launches a new EC2 instance.
+
+- auto scaling group can span across multiple az

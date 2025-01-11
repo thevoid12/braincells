@@ -21,5 +21,5 @@ between the two databases
 - to **encrypt RDS** : take a **snapshot**, encrypt using kms and then unencrypt the snapshot when needed
 - you can not create encrypted Read Replicas from an unencrypted RDS DB instance.
 - 15 Aurora Read Replicas can you have in a single Aurora DB Cluster
-- Amazon Aurora supports both mysql and posgress
-- The maximum retention of aurora automatic backup is only 35 days
+- Amazon Aurora supports both **mysql** and **posgress**
+- The maximum retention of aurora automatic backup is only **35 days**

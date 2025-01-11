@@ -79,3 +79,12 @@ group per AZ)
   - but in hybernate mode we take a dump of the ram and store it  in our ebs encrypted root volume
   - so when we restart from hybernate it gets booted up fast as it uses this dump to restart thus maintaining the current state
   - as of now instance cannot hybernate more than 60 days
+
+## how to instantiate application quickly
+### for ec2 instances:
+- create something called **golden AMI** which is a AMI with installed os,dependency everything
+- install os,install dependency and create a AMI out of it (golden AMI)
+- another method is to use **bootstrap script using user data** very useful for dynamic changes
+- hybrid: mix of both AMI+ user data
+### for rds databases and ebs volumes:
+- take a snapshot and restore the snapshot for instantiating application quickly
