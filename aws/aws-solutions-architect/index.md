@@ -13,3 +13,4 @@ practitioner exam
 - [rds,replica,elastic cache](rds_elastic_cache.md)
 - [route 53](route-53.md)
 - [beanstalk](beanstalk.md)
+- [s3](s3.md)

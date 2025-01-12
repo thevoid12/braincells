@@ -23,7 +23,7 @@
 - Environment:
 ![beanstalk](img/15.png)
 
-# types of envonment:
+# types of environment:
 1. worker:
   - the instances work like a worker eg processing long messages which involves tasks of a queue, just keep working
 2. web:
