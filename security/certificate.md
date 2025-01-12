@@ -1,4 +1,6 @@
 # ssh certificates:
+https://www.youtube.com/watch?v=GQtsIe6ZgH4
+
 ## best practices:
 - host ca and user ca should be seperate. this is because in case of private key compromize you just have to issue host ca or user ca again not both.
 - no not never ever share private key
@@ -151,7 +153,8 @@ On each host machine (Machine 1 and Machine 2):
 
 3. Sign the host key with the Host CA:
    ```bash
-   ssh-keygen -s /etc/ssh/host_ca -I host_machine1 -h -V +1y /etc/ssh/ssh_host_rsa_key.pub
+    sudo ssh-keygen -s /etc/ssh/host_ca -I pi -h -V +1w /etc/ssh/pi_ssh_host_rsa_key.pub
+
    ```
    - `-h`: Indicates this is a host certificate
    - `-I host_machine1`: Identifier for the host
