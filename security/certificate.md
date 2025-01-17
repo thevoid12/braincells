@@ -170,7 +170,23 @@ On each host machine (Machine 1 and Machine 2):
    # Restart SSH
    sudo systemctl restart sshd
    ```
+you can configure principal,host  user ca's certs in ssd config
+```bash
+TrustedUserCAKeys /etc/ssh/AuditCue_Tech_cert.pub
+AuthorizedPrincipalsFile /etc/ssh/auth_principals/%u
 
+
+## in terminal
+[ec2-user@ip-172-128-8-102 ssh]$ cd auth_principals/
+[ec2-user@ip-172-128-8-102 auth_principals]$ ls -
+ls: cannot access '-': No such file or directory
+[ec2-user@ip-172-128-8-102 auth_principals]$ ls -l
+total 4
+-rw-r--r--. 1 root root 7 Feb 22  2024 ec2-user
+[ec2-user@ip-172-128-8-102 auth_principals]$ cat ec2-user 
+devops
+[ec2-user@ip-172-128-8-102 auth_principals]$
+```
 ### 3. Configure Hosts to Trust the Host CA
 
 On all machines, including the User CA machine:
@@ -218,6 +234,7 @@ On the user's machine:
    ```bash
    @cert-authority * ssh-rsa AAAAB3... host_ca.pub
    ```
+this step is optional and it is automatically done when you try to ssh into the machine
 
 2. Configure the user's `~/.ssh/config`:
    ```ssh-config
@@ -233,7 +250,7 @@ On the user's machine:
        IdentityFile ~/.ssh/id_rsa_user
        CertificateFile ~/.ssh/id_rsa_user-cert.pub
    ```
-
+this step is optinal as well so ssh quickly. all you need to do after configuring this is to run Host machine2
 ## System Architecture
 
 ```
@@ -388,3 +405,5 @@ To trust the **Host CA**, add the following entry to your `~/.ssh/known_hosts` f
 ```plaintext
 @cert-authority *.example.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomHostCAPublicKey
 ```
+
+- add tustedhostca in sshdconfig path to public key ca
