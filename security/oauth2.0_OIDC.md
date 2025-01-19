@@ -149,3 +149,37 @@ When requesting authorization, the app specifies scopes (e.g., https://www.googl
 | **Identity Information**| Not included in the access token          | Included in the ID token                   |
 | **User Info Retrieval** | Requires additional API call to `/userinfo`| ID token contains user info; `/userinfo` is optional |
 | **Use Case**            | Accessing Google Drive or Gmail           | Logging into a website using "Sign in with Google" |
+
+---
+## refresh token:
+####  Refresh Tokens are used to:
+- Get a new access token when the current one expires
+- Maintain long-term access to Google APIs
+**Important points about refresh tokens:**
+  - They don't expire (but can be revoked)
+  - Should be stored securely (database/encrypted storage)
+  - You only get them once during the first authorization
+  - You only get them when requesting "offline" access
+  - One refresh token can be used multiple times to get new access tokens
+**when is refresh token used:**
+- Google's access tokens typically expire after 1 hour
+- When you make an API request and get a 401 (Unauthorized) response
+- Before making an API call if you know the token has expired (by tracking expiry time)
+
+**benefits of including refresh tokens in authentication:**
+- Users stay logged in longer
+- More secure than storing access tokens long-term
+- Better user experience (no frequent re-logins)
+- Required for offline access to user data
+- Follows OAuth 2.0 best practices
+
+**the access token expiring doesn't automatically "log out" the user in the way you might think. Here's what actually happens:**
+At 10:00 AM when the access token expires:
+The user still sees your website/app
+Their browser session is still active
+They haven't been kicked out
+BUT, when your application tries to:
+Access Google APIs
+Get user information
+Validate the user's identity
+The request will fail because the access token is expired.
