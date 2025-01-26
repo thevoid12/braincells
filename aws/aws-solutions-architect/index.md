@@ -14,3 +14,4 @@ practitioner exam
 - [route 53](route-53.md)
 - [beanstalk](beanstalk.md)
 - [s3](s3.md)
+- [cloudfront](cloudfront.md)
