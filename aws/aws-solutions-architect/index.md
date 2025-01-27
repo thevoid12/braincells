@@ -15,3 +15,4 @@ practitioner exam
 - [beanstalk](beanstalk.md)
 - [s3](s3.md)
 - [cloudfront](cloudfront.md)
+- [sqs,sns,kinesis](aws-messaging.md)
