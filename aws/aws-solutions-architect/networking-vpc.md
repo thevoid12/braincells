@@ -19,6 +19,7 @@ so 255.255.255.255
 therefore all IPs
 
 - the internet assigned number authority(IANA) established a certaimn block of IPv4 addresses for the use of private (LAN) and public (INTERNET) addresses
+- CIDR not should overlap, and the max CIDR size in AWS is /16.
 - **PRIVATE IP RANGES:**
   - in big networks
   10.0.0.0 -10.255.255.255 (10.0.0.0/8)
@@ -115,6 +116,7 @@ connect to the Internet
 - but we should make sure that they dont have overlapping cidr range
 - vpc connection is not transitive vpcA <-> VPCb AND VPCB <-> VPCC that doesnt mean vpcA is peered with vpcc. we need to explicitly peer them. so it gets very clumpsy thus we use [transit gateway]( ##transitgateway)
 - You must update route tables about the vpc peering in each VPC’s subnets to ensure EC2 instances
+- Route tables must be updated in both VPCs that are peered.
 can communicate with each other
 ![vpc peering](img/50.png)
 ---
@@ -197,3 +199,5 @@ Connect locations
 ## Aws network firewall:
 - Protect your entire Amazon VPC
 ![ANF](img/60.png)
+
+>This is the most secure way of ensuring only the ALB can access the EC2 instances. Referencing by security groups in rules is an extremely powerful rule and many questions at the exam rely on it. Make sure you fully master the concepts behind it!
