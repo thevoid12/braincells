@@ -17,3 +17,4 @@ practitioner exam
 - [cloudfront](cloudfront.md)
 - [sqs,sns,kinesis](aws-messaging.md)
 - [aws containers](aws-containers.md)
+- [networking and vpc](networking-vpc.md)
