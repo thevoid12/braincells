@@ -71,7 +71,7 @@ group per AZ)
 - ## Elastic Network Interface:
 - https://aws.amazon.com/blogs/aws/new-elastic-network-interfaces-in-the-virtual-private-cloud/
 - Elastic Network Interfaces (ENIs) are bounded to a specific AZ. You can not attach an ENI to an EC2 instance in a different AZ.
-
+- we are teasing apart the IP addresses (and important attributes associated with them) from the EC2 instances and calling the resulting entity an ENI, or Elastic Network Interface. Second, we are giving you the ability to create additional ENIs, and to attach a second ENI to an instance (again, this is within the VPC).
 - ## EC2 Hybernate
   - hybernate is a state similar to terminate ,stop
   - used for fast bootup

@@ -18,3 +18,4 @@ practitioner exam
 - [sqs,sns,kinesis](aws-messaging.md)
 - [aws containers](aws-containers.md)
 - [networking and vpc](networking-vpc.md)
+- [serverless](serverless.md)
