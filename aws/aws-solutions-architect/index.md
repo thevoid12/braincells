@@ -19,3 +19,4 @@ practitioner exam
 - [aws containers](aws-containers.md)
 - [networking and vpc](networking-vpc.md)
 - [serverless](serverless.md)
+- [others](others.md)
