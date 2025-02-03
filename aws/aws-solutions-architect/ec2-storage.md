@@ -2,7 +2,7 @@
 - EBS Volumes are created for a specific AZ. It is possible to migrate them between different AZs using EBS Snapshots.
 - AMIs are built for a specific AWS Region, they're unique for each AWS Region. You can't launch an EC2 instance using an AMI in another AWS Region, but you can copy the AMI to the target AWS Region and then use it to create your EC2 instances.
 - EFS is a network file system (NFS) that allows you to mount the same file system on EC2 instances that are in different AZs.
-- EC2 Instance Store provides the best disk I/O performance but will diappear on termination
+- **EC2 Instance Store** provides the best disk I/O performance but will diappear on termination
 ### EBS Volume types:
   - general Purpose ssd volumes
     - GP2

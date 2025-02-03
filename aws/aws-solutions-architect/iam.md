@@ -72,3 +72,7 @@
          Use the Principal element in a resource-based JSON policy to specify the principal that is allowed or denied access to a resource.
          - **action:** The Action element describes the specific action or actions that will be allowed or denied. Statements must include either an Action or NotAction element. Each AWS service has its own set of actions that describe tasks that you can perform with that service. 
          - **resource:** The Resource element in an IAM policy statement defines the object or objects that the statement applies to. Statements must include either a Resource or a NotResource element.You specify a resource using an Amazon Resource Name (ARN). 
+# IAM DB AUTHENTICATION:
+- you can authenticate to your DB instance using AWS Identity and Access Management (IAM) database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don’t need to use a password when you connect to a DB instance. Instead, you use an authentication token.
+
+- An authentication token is a unique string of characters that Amazon RDS generates on request. Authentication tokens are generated using AWS Signature Version 4. Each token has a lifetime of 15 minutes. You don’t need to store user credentials in the database, because authentication is managed externally using IAM. You can also still use standard database authentication.
