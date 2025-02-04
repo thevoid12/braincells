@@ -3,21 +3,62 @@ To excel in competitive programming with C++, mastering the Standard Template Li
 ---
 
 ### **1. Containers**
-| STL Component       | Operation               | Time Complexity      | Example/Use Case                          |
-|---------------------|-------------------------|----------------------|--------------------------------------------|
-| **`vector`**        | `push_back()/pop_back()`| O(1)                 | `v.push_back(5);` (dynamic arrays)         |
-|                     | `insert()/erase()`      | O(n)                 | `v.insert(v.begin(), 10);` (costly)        |
-|                     | `operator[]`            | O(1)                 | `int x = v[2];` (random access)            |
-| **`deque`**         | `push_front()/push_back()` | O(1)             | `dq.push_front(10);` (double-ended queue)  |
-| **`queue`**         | `push()/pop()`          | O(1)                 | FIFO (BFS/level-order traversal)           |
-| **`priority_queue`**| `push()/pop()`          | O(log n)             | `pq.push(3);` (max-heap by default)        |
-|                     | `top()`                 | O(1)                 | `cout << pq.top();`                        |
-| **`stack`**         | `push()/pop()`          | O(1)                 | LIFO (DFS/postfix evaluation)              |
-| **`set/map`**       | `insert()/find()`       | O(log n)             | Ordered unique keys (BST-based)            |
-| **`unordered_set/map`** | `insert()/find()` | O(1) avg, O(n) worst | Hash-table (fast lookups, no order)        |
-| **`pair`**          | Access `first/second`   | O(1)                 | `pair<int, int> p = {1, 2};`               |
-| **`bitset`**        | `set()/test()`          | O(1)                 | `bitset<8> bs(5);` (bitmasking)            |
 
+| **Container**           | **Operations**                 | **Time Complexity** | **Example**                                                                 | **Use Cases**                                  |
+|-------------------------|---------------------------------|---------------------|-----------------------------------------------------------------------------|-----------------------------------------------|
+| **`std::vector`**        | `push_back()`                  | O(1)                | `vector<int> v = {1, 2}; v.push_back(3);`                                   | Dynamic arrays, frequent access               |
+| `<vector>`              | `pop_back()`                   | O(1)                | `v.pop_back();`                                                             |                                               |
+|                         | `insert()`/`erase()`           | O(n)                | `v.insert(v.begin() + 1, 5);`                                               |                                               |
+|                         | Random access (`v[i]`)         | O(1)                | `int x = v[0];`                                                             |                                               |
+| **`std::deque`**         | `push_front()`/`push_back()`   | O(1)                | `deque<int> dq; dq.push_front(10);`                                         | Sliding window, double-ended operations       |
+| `<deque>`               | `pop_front()`/`pop_back()`     | O(1)                | `dq.pop_back();`                                                            |                                               |
+|                         | Random access (`dq[i]`)        | O(1)                | `int x = dq[2];`                                                            |                                               |
+| **`std::list`**          | `push_back()`/`push_front()`   | O(1)                | `list<int> ls; ls.push_back(3);`                                            | Frequent insertions/deletions in middle       |
+| `<list>`                | `insert()`/`erase()`           | O(1)*               | `auto it = ls.begin(); ls.insert(it, 5);`                                   | (if iterator is known)                        |
+|                         | Access by index                | O(n)                | `advance(it, 2);` (no direct indexing)                                      |                                               |
+| **`std::stack`**         | `push()`                       | O(1)                | `stack<int> st; st.push(10);`                                               | LIFO (DFS, undo/redo)                         |
+| `<stack>`               | `pop()`                        | O(1)                | `st.pop();`                                                                 |                                               |
+|                         | `top()`                        | O(1)                | `int x = st.top();`                                                         |                                               |
+| **`std::queue`**         | `push()`                       | O(1)                | `queue<int> q; q.push(10);`                                                 | FIFO (BFS, task scheduling)                   |
+| `<queue>`               | `pop()`                        | O(1)                | `q.pop();`                                                                  |                                               |
+|                         | `front()`                      | O(1)                | `int x = q.front();`                                                        |                                               |
+| **`std::priority_queue`** max heap| `push()`                       | O(log n)            | `priority_queue<int> pq; pq.push(5);`                                       | Heaps (Dijkstra's, top-k elements) , default is max heap          |
+| **`std::priority_queue`** min heap | `push()`                       | O(log n)            | `priority_queue<int, vector<int>, greater<int>> pq; pq.push(5);`                                       | min heap         |
+| `<queue>`               | `pop()`                        | O(log n)            | `pq.pop();`                                                                 |                                               |
+|                         | `top()`                        | O(1)                | `int x = pq.top();` (max element)                                           |                                               |
+| **`std::set`**           | `insert()`                     | O(log n)            | `set<int> s; s.insert(3);`                                                  | Sorted unique elements (BST)                  |
+| `<set>`                 | `erase()`                      | O(log n)            | `s.erase(3);`                                                               |                                               |
+|                         | `find()`                       | O(log n)            | `auto it = s.find(3);`                                                      |                                               |
+| **`std::multiset`**      | `insert()`                     | O(log n)            | `multiset<int> ms; ms.insert(3);`                                           | Sorted elements with duplicates               |
+| `<set>`                 | `erase()`                      | O(log n)            | `ms.erase(3);` (removes all instances)                                      |                                               |
+| **`std::unordered_set`** | `insert()`                     | O(1) avg            | `unordered_set<int> us; us.insert(3);`                                      | Fast lookups (hash table)                     |
+| `<unordered_set>`       | `erase()`                      | O(1) avg            | `us.erase(3);`                                                              |                                               |
+|                         | `find()`                       | O(1) avg            | `auto it = us.find(3);`                                                     |                                               |
+| **`std::map`**           | `insert()`                     | O(log n)            | `map<string, int> mp; mp["apple"] = 5;`                                     | Key-value pairs sorted by keys                |
+| `<map>`                 | `erase()`                      | O(log n)            | `mp.erase("apple");`                                                        |                                               |
+|                         | `find()`                       | O(log n)            | `auto it = mp.find("apple");`                                               |                                               |
+| **`std::multimap`**      | `insert()`                     | O(log n)            | `multimap<string, int> mmp; mmp.insert({"apple", 5});`                      | Multiple keys with same value                 |
+| `<map>`                 | `erase()`                      | O(log n)            | `mmp.erase("apple");`                                                       |                                               |
+| **`std::unordered_map`** | `insert()`                     | O(1) avg            | `unordered_map<string, int> ump; ump["apple"] = 5;`                         | Fast key-value lookups (hash table)           |
+| `<unordered_map>`       | `erase()`                      | O(1) avg            | `ump.erase("apple");`                                                       |                                               |
+|                         | `find()`                       | O(1) avg            | `auto it = ump.find("apple");`                                              |                                               |
+| **`std::pair`**          | Access `first`/`second`        | O(1)                | `pair<int, string> p = {1, "hello"};`                                       | Storing two elements (e.g., edges in a graph) |
+| `<utility>`             |                                 |                     |                                                                             |                                               |
+| **`std::bitset`**        | `set()`/`reset()`              | O(1)                | `bitset<8> bs; bs.set(3);`                                                  | Bitmasking, compact boolean storage           |
+| `<bitset>`              | `test()`                       | O(1)                | `bool x = bs.test(3);`                                                      |                                               |
+| **`std::string`**        | `push_back()`                  | O(1)                | `string s = "abc"; s.push_back('d');`                                       | Text processing, parsing                      |
+| `<string>`              | `substr()`                     | O(n)                | `string sub = s.substr(1, 2);`                                              |                                               |
+|                         | `find()`                       | O(n)                | `size_t pos = s.find("bc");`                                                |                                               |
+
+
+### **When to Use Which Container?**
+- **Need fast access by index?** → `vector` or `deque`.
+- **Frequent insertions at both ends?** → `deque`.
+- **Frequent insertions in the middle?** → `list`.
+- **Need sorted elements?** → `set`/`map`.
+- **Fast lookups (no order)?** → `unordered_set`/`unordered_map`.
+- **LIFO/FIFO?** → `stack`/`queue`.
+- **Heap operations?** → `priority_queue`.
 ---
 
 ### **2. Algorithms** (`#include <algorithm>`)
@@ -39,26 +80,22 @@ To excel in competitive programming with C++, mastering the Standard Template Li
 | **`gcd(a, b)`**     | Compute GCD             | O(log min(a, b))     | `gcd(12, 18) = 6` (C++17)                 |
 | **`lcm(a, b)`**     | Compute LCM             | O(log min(a, b))     | `lcm(4, 6) = 12` (C++17)                  |
 | **`stringstream`**  | Parse strings           | O(n)                 | `stringstream ss("123"); int x; ss >> x;` |
-
+| **`#<include<bits/stdc++.h>`**  | has all the header files in it           |             | |
 ---
 
-### **4. Tips & Tricks**
-1. **Fast I/O**:  
-   ```cpp
-   ios_base::sync_with_stdio(false); cin.tie(NULL);
-   ```
-2. **Lambda Comparator**:  
-   ```cpp
-   sort(v.begin(), v.end(), [](int a, int b) { return a > b; });
-   ```
-3. **Reserve Memory**:  
-   ```cpp
-   vector<int> v; v.reserve(1e6); // Faster for large data
-   ```
-4. **Erase-Remove Idiom**:  
-   ```cpp
-   v.erase(remove(v.begin(), v.end(), 0), v.end()); // Remove all zeros
-   ```
+## tips and tricks:
+#### find the length of array using size():
+```cpp
+int s= sizeof(a)/sizeof[a[0]]
+```
+#### find number of digit in a number:
+```cpp
+#include<ctype.h>
+floor(log10(n)+1)
+```
+eg: 1234-> log10(1234)= 3.09
+3.09+1 =4.09
+floor(4.09)= 4
 
 ---
 
