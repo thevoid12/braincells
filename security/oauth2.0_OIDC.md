@@ -1,71 +1,68 @@
-# oauth2.0 and open id connect (OIDC) 
+# OAuth 2.0 and OpenID Connect (OIDC)  
 
+> **Goated video**: https://www.youtube.com/watch?v=996OiexHze0  
+> **PPT**: https://drive.google.com/file/d/1UyPqnrGnCCJ7PeIY-rDV-3tRprIEprBB/view?usp=sharing  
 
-> goated video : https://www.youtube.com/watch?v=996OiexHze0
->ppt: https://drive.google.com/file/d/1UyPqnrGnCCJ7PeIY-rDV-3tRprIEprBB/view?usp=sharing
+- OAuth 2.0 for authorization  
+- OpenID Connect for authentication  
 
+## Authorization vs. Authentication  
 
-- oauth2.0 for authorization
-- openid connect for authentication
+### Authentication:  
+- Authentication is the process of verifying the identity of a user, system, or entity. It ensures that the person or system is who they claim to be.  
 
-#### authorization vs Authentication:
+### Authorization:  
+- Authorization determines what permissions an authenticated user has.  
+- It is the process of defining what an authenticated user or system is allowed to access or do.  
 
-##### Authentication:
-- Authentication is the process of verifying the identity of a user, system, or entity. It ensures that the person or system is who they claim to be.
+### Analogy:  
+- **Authentication**: Showing your ID to prove who you are.  
+- **Authorization**: Being allowed into a restricted area based on your ID.  
 
-##### Authorization:
-- what are the permission that an authenticated user has
-- authorization is the process of determining what an authenticated user or system is allowed to access or do. It defines permissions and access levels.
-##### Analogy:
-Authentication: Showing your ID to prove who you are.
+| **Aspect**            | **Authentication**                          | **Authorization**                          |  
+|------------------------|---------------------------------------------|--------------------------------------------|  
+| **Purpose**            | Verifies identity                           | Grants or restricts access                 |  
+| **When it happens**    | Before authorization                        | After authentication                       |  
+| **Mechanisms**         | Passwords, biometrics, MFA                  | Role-based access control (RBAC), permissions |  
+| **Example**            | Logging into a system                       | Accessing specific files or features       |  
 
-Authorization: Being allowed into a restricted area based on your ID.
-| **Aspect**            | **Authentication**                          | **Authorization**                          |
-|------------------------|---------------------------------------------|--------------------------------------------|
-| **Purpose**            | Verifies identity                           | Grants or restricts access                 |
-| **When it happens**    | Before authorization                        | After authentication                       |
-| **Mechanisms**         | Passwords, biometrics, MFA                  | Role-based access control (RBAC), permissions |
-| **Example**            | Logging into a system                       | Accessing specific files or features       |
+![Authorization Flow](img/2.png)  
 
+- OAuth 2.0 takes advantage of both the back and front channels.  
 
+### Backchannel and Front Channel  
+- The **front channel** is used for user-facing interactions and operates through the browser, while the **back channel** is used for secure server-to-server communication.  
+- The **back channel** uses POST requests and is more secure than the front channel because:  
+  - All communication is encrypted with HTTPS.  
+  - The client application authenticates itself using a client secret.  
+  - Sensitive data (e.g., authorization code, access token) is never exposed to the browser.  
+  - Authorization codes are short-lived, reducing the risk of misuse.  
+- In contrast, the **front channel** is less secure because:  
+  - It relies on the browser to transmit sensitive data (e.g., authorization code) via redirects.  
+  - The browser is a public environment and is more vulnerable to attacks (e.g., man-in-the-middle, phishing, or malicious extensions).  
+  - The client application has no control over the security of the browser or the network.  
 
-![authorization flow](img/2.png)
+![Back Channel Auth Flow](img/3.png)  
 
-- takes advantage of both back and front channel
-    - ##### backchannel and front channel:
-      - The forward channel is used for user-facing interactions and operates through the browser, while the back channel is used for secure server-to-server communication.
-      - While the back channel uses POST requests, it is still more secure than the forward channel because:
-        - All communication is encrypted with HTTPS.
-        - The client application authenticates itself using a client secret.
-        - Sensitive data (e.g., authorization code, access token) is never exposed to the browser.
-        - Authorization codes are short-lived, reducing the risk of misuse
-      - In contrast, the forward channel is less secure because:
-        - It relies on the browser to transmit sensitive data (e.g., authorization code) via redirects.
-        - The browser is a public environment and is more vulnerable to attacks (e.g., man-in-the-middle, phishing, or malicious extensions).
-        - The client application has no control over the security of the browser or the network.
+- The **user interaction** part is done using the front channel (browser), but since we can't fully trust the browser, we use the back channel for the final part of the flow—**access token exchange and resource retrieval**.  
 
-![back channel auth flow](img/3.png)
+---
 
-- the user intraction part is done using a front channel(browser) but since we cant fully trust the browser, we use a back channel to do the final part of the flow acess token exchange and get the the resources part  
+## OAuth 2.0 Authorization Code Flow  
 
-#### OAuth 2.0 Authorization Code Flow
-OAuth 2.0 Authorization Code Flow to highlight the security differences:
+### Forward Channel (Less Secure)  
+1. The user clicks "Sign in with Google" on the client application.  
+2. The client app redirects the user's browser to Google's authorization server.  
+3. The user logs in and consents to the requested permissions.  
+4. Google redirects the user's browser back to the client app with an authorization code in the URL (redirect URI or callback).  
 
-##### Forward Channel (Less Secure)
-- The user clicks "Sign in with Google" on the client application.
-- The client app redirects the user's browser to Google's authorization server.
-- The user logs in and consents to the requested permissions.
-- Google redirects the user's browser back to the client app with an authorization code in the URL.(redirect uri or callback)
+**Risk:** The authorization code is exposed to the browser and could be intercepted. However, this alone is not useful because an authorization code alone cannot be used to access resources. An **access token** is required, which can only be obtained by providing both the authorization code and a client secret.  
 
-**Risk:** The authorization code is exposed to the browser and could be intercepted. but thats of no use because an authorization code alone means nothing because access token is more important and we get access token only when we provide authorization code + a secret
+### Back Channel (More Secure)  
+1. The client app takes the authorization code and sends it directly to Google's token endpoint via a **POST request** (over HTTPS).  
+2. The **POST request is encrypted** with HTTPS, and the client app authenticates itself using a **client secret**.  
+3. Google responds with an **access token**, which is securely transmitted over HTTPS and never exposed to the browser.  
 
-##### Back Channel (More Secure)
-- The client app takes the authorization code and sends it directly to Google's token endpoint via a POST request (over HTTPS).
-
-- **Security:** The POST request is encrypted with HTTPS, and the client app authenticates itself using a client secret.
-
-- Google responds with an access token.
-**Security:** The access token is transmitted securely over HTTPS and is never exposed to the browser.
 ```bash
 POST /token HTTP/1.1
 Host: authorization-server.com
@@ -77,109 +74,81 @@ grant_type=authorization_code
 &client_id=CLIENT_ID
 &client_secret=CLIENT_SECRET
 ```
----
-
-- oauth was never defined to be used for **authentication**. it was desgined for **authorization**. what oauth does is checks the scope that the authenticated user has (which is  authroization ).
-- OAuth 2.0 is designed primarily for **authorization**, not authentication, because its core purpose is to allow third-party applications to access resources on behalf of a user without exposing the user's credentials (e.g., passwords).
-- OAuth 2.0 uses **access tokens** to grant access to resources. These tokens are short-lived and scoped to specific permissions (e.g., read-only access to emails).
-- It does not inherently verify the user's identity; it only ensures that the application has permission to access the requested resources.
-
-##### Why OAuth 2.0 is Not for Authentication:
-###### 1. Lack of Identity Verification:
-- OAuth 2.0 does not provide a standard way to verify the user's identity. It only provides an access token, which does not inherently contain identity information.
-
-- Without additional mechanisms, OAuth 2.0 cannot confirm who the user is—it only confirms that the application has been granted access.
-What Happens in OAuth 2.0 with Google
-Access Token:
-
-- eg: When you use OAuth 2.0 to access Google APIs (e.g., Google Drive, Gmail), Google issues an access token to the third-party application.
-
-- This access token is a string that represents the authorization granted to the app to access specific resources (e.g., read emails, view files).
-
-- **What the Access Token Represents:**
-  - The access token is a proof that the app has been granted permission to access certain resources on behalf of the user.
-
-  - It does not contain detailed information about the user (e.g., name, email, profile picture). Instead, it is just a key that allows the app to make API calls to Google's services.
-
-  - OAuth 2.0 does not define how to verify the user's identity. The access token alone does not tell you who the user is. it only tells you that the app has permission to access certain resources.
-##### 2. Misuse for Authentication:
-
-- Many developers misuse OAuth 2.0 for authentication by assuming that the presence of an access token implies the user's identity has been verified. This can lead to security vulnerabilities.
-
-- For example, if an attacker steals an access token, they could impersonate the user without ever verifying their identity.
-
-##### 3. Inconsitency in authentication implementation:
-- OAuth 2.0 does not define how user information (e.g., name, email) should be retrieved. This is left to the implementation, which can lead to inconsistencies. everybody implement their own way on top of oauth to use oauth to authenticate. which is not the standard practice
 
 ---
-## openID connect:
-- to solve the above problem of needing user info to authenticate a layer is written on top of oauth2.0 which is OIDC.
-- OIDC adds an identity layer to OAuth 2.0, enabling authentication:
 
-**ID Tokens:**
+## OAuth 2.0 is for Authorization, Not Authentication  
 
-- OIDC introduces ID tokens, which are JSON Web Tokens (JWTs) containing information about the user's identity (e.g., name, email, etc.).
+- OAuth was never designed for **authentication**—it was designed for **authorization**.  
+- OAuth 2.0 checks the **scope** of an authenticated user (which is authorization).  
+- It uses **access tokens** to grant access to resources. These tokens are short-lived and scoped to specific permissions (e.g., read-only access to emails).  
+- OAuth 2.0 does **not inherently verify the user’s identity**; it only ensures that the application has permission to access requested resources.  
 
-- These tokens are signed and can be verified to ensure the user's identity.
+### Why OAuth 2.0 Is Not for Authentication  
 
-**Standardized User Info:**
+#### 1. Lack of Identity Verification  
+- OAuth 2.0 does not provide a standard way to verify a user's identity. It only provides an **access token**, which does not inherently contain identity information.  
 
-OIDC provides a standard way to retrieve user information using the /userinfo endpoint.
+#### 2. Misuse for Authentication  
+- Many developers misuse OAuth 2.0 for authentication by assuming that the presence of an access token implies the user's identity has been verified. This can lead to security vulnerabilities.  
+- If an attacker steals an access token, they could impersonate the user without ever verifying their identity.  
 
-**Authentication Flow:**
-
-OIDC uses OAuth 2.0 flows but adds steps to verify the user's identity and return an ID token alongside the access token.
-
-User Info Endpoint:
-
-Google provides a /userinfo endpoint that the app can call to retrieve basic information about the user (e.g., name, email, profile picture).
-
-This requires the app to make a separate API call using the access token.
-
-Scopes:
-
-When requesting authorization, the app specifies scopes (e.g., https://www.googleapis.com/auth/userinfo.profile) to indicate what user information it needs.
-- we can add openid in scope which will return us the openid jwt
-- Google then grants access to this information, but it is not part of the access token itself.
-
-![OIDC](img/4.png)
-| **Step**               | **OAuth 2.0**                              | **OpenID Connect (OIDC)**                  |
-|-------------------------|--------------------------------------------|--------------------------------------------|
-| **Token Issued**        | Access token                              | Access token + ID token                    |
-| **Identity Information**| Not included in the access token          | Included in the ID token                   |
-| **User Info Retrieval** | Requires additional API call to `/userinfo`| ID token contains user info; `/userinfo` is optional |
-| **Use Case**            | Accessing Google Drive or Gmail           | Logging into a website using "Sign in with Google" |
+#### 3. Inconsistency in Authentication Implementation  
+- OAuth 2.0 does not define how user information (e.g., name, email) should be retrieved, leading to inconsistencies.  
+- Different platforms implement their own authentication layers on top of OAuth, which is **not the standard practice**.  
 
 ---
-## refresh token:
-####  Refresh Tokens are used to:
-- Get a new access token when the current one expires
-- Maintain long-term access to Google APIs
-**Important points about refresh tokens:**
-  - They don't expire (but can be revoked)
-  - Should be stored securely (database/encrypted storage)
-  - You only get them once during the first authorization
-  - You only get them when requesting "offline" access
-  - One refresh token can be used multiple times to get new access tokens
-**when is refresh token used:**
-- Google's access tokens typically expire after 1 hour
-- When you make an API request and get a 401 (Unauthorized) response
-- Before making an API call if you know the token has expired (by tracking expiry time)
 
-**benefits of including refresh tokens in authentication:**
-- Users stay logged in longer
-- More secure than storing access tokens long-term
-- Better user experience (no frequent re-logins)
-- Required for offline access to user data
-- Follows OAuth 2.0 best practices
+## OpenID Connect (OIDC)  
 
-**the access token expiring doesn't automatically "log out" the user in the way you might think. Here's what actually happens:**
-At 10:00 AM when the access token expires:
-The user still sees your website/app
-Their browser session is still active
-They haven't been kicked out
-BUT, when your application tries to:
-Access Google APIs
-Get user information
-Validate the user's identity
-The request will fail because the access token is expired.
+To solve the problem of **needing user identity verification**, **OIDC** adds an authentication layer on top of OAuth 2.0.  
+
+### **OIDC Enhancements**  
+
+1. **ID Tokens (JWTs)**  
+   - OIDC introduces **ID tokens**, which are JSON Web Tokens (JWTs) containing user identity information (e.g., name, email).  
+   - These tokens are signed and can be verified to ensure the user's identity.  
+
+2. **Standardized User Info**  
+   - OIDC provides a standard way to retrieve user information using the `/userinfo` endpoint.  
+
+3. **Authentication Flow**  
+   - OIDC follows OAuth 2.0 flows but adds an **ID token** alongside the **access token**.  
+
+### **OIDC vs. OAuth 2.0**  
+
+| **Step**               | **OAuth 2.0**                              | **OpenID Connect (OIDC)**                  |  
+|-------------------------|--------------------------------------------|--------------------------------------------|  
+| **Token Issued**        | Access token                              | Access token + ID token                    |  
+| **Identity Information**| Not included in the access token          | Included in the ID token                   |  
+| **User Info Retrieval** | Requires additional API call to `/userinfo`| ID token contains user info; `/userinfo` is optional |  
+| **Use Case**            | Accessing Google Drive or Gmail           | Logging into a website using "Sign in with Google" |  
+
+![OIDC Flow](img/4.png)  
+
+---
+
+## Refresh Tokens  
+
+### Purpose of Refresh Tokens  
+- Used to obtain a new **access token** when the current one expires.  
+- Maintains long-term access to APIs without requiring the user to log in repeatedly.  
+
+### Key Points  
+- **Refresh tokens don’t expire** (but can be revoked).  
+- Must be stored securely (e.g., database/encrypted storage).  
+- Issued **only once** during the first authorization.  
+- Provided when requesting **offline access**.  
+- A single refresh token can be used multiple times to obtain new access tokens.  
+
+### When Is a Refresh Token Used?  
+- Google’s access tokens typically expire after **1 hour**.  
+- If an API request fails with a `401 Unauthorized` response, the app uses the **refresh token** to get a new access token.  
+
+### Benefits of Refresh Tokens  
+- **Longer login sessions** for users.  
+- **More secure** than storing long-term access tokens.  
+- **Better user experience** (fewer re-logins).  
+- **Required for offline access** to user data.  
+
+Even when an **access token expires**, the user **remains logged in**, but API calls will fail until a new token is obtained.
