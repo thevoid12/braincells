@@ -219,5 +219,3 @@ config.MaxConnLifetime = 30 * time.Minute // Replace connections after 30 min
 This ensures:
 - **Idle connections don’t waste resources** for too long.  
 - **Long-lived connections don’t become stale** and are refreshed periodically.  
-
-Would you like help tuning these settings based on your workload?
