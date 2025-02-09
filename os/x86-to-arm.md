@@ -53,6 +53,6 @@ A binary file that can run on ARM64 Linux systems
 Even though you created it on a different type of computer
 It's like baking a French bread in America that tastes exactly like it was baked in France
 **Benefits:**
-Development flexibility: Code anywhere, deploy everywhere
-Cost efficiency: Don't need physical access to target hardware
-Time saving: Build for multiple platforms from one machine
+- Development flexibility: Code anywhere, deploy everywhere
+- Cost efficiency: Don't need physical access to target hardware
+- Time saving: Build for multiple platforms from one machine
