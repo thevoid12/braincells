@@ -2,7 +2,7 @@
 
 
 ### table of context
- - [Security Fundamentals](fundamentals.md)
+ - [Security Fundamentals](security_fundamentals.md)
 
 
 #### references:
