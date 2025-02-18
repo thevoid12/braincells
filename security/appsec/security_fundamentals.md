@@ -23,3 +23,17 @@ unrequired
 grayed out, would be an ideal place to start for a malicious actor because it’s not fully tested or hardened yet. Instead, you should remove this code before publishing it to production
 and wait until it’s finished to publish it
 - Even if it’s hidden, that’s not enough; reduce your attack surface by removing that part of your code.
+#### Hard Coding
+- Hard coding means programming values into the code, rather than getting the values
+organically (from the user, database, an API, etc.).
+- if anyone can access the source code they will get the confidential data
+- Hard coding is generally considered a symptom of poor software development 
+#### Never Trust, Always Verify
+- anything that comes from outside verify and validate. even valdate data from your own databases
+- #### Usable Security
+- If security features make your application difficult to use, users will find a way around it or go to your competitor. There are countless examples online of users creatively
+circumventing inconvenient security features; humans are very good at solving problems,
+and we don’t want security to be the problem.
+- The answer to this is creating usable security features.
+- eg: Allowing a fingerprint, facial recognition, or pattern to unlock your personal device
+instead of a long and complicated password.
