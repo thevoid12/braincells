@@ -3,5 +3,6 @@
 - code
 - interface embedding: a interface inside a interface
 suppose you have interface A, interface B and interface C which implements interface A and B then, we satisfy interface C if a type satisfies both interface A and B
-
-- To satisfy an interface in Go, a type must implement all of the methods defined in the interface. Let’s take a closer look at how this works.
+- code
+- To satisfy an interface in Go, a type must implement all of the methods defined in the interface. 
+- code
