@@ -1,5 +1,3 @@
-// https://docs.google.com/document/d/1PLJdD4POmdgmCvbs0VMAQ5UiSg4tDfq_lJ_Isa6hr3A/edit?usp=sharing
-
 package main
 
 import (
