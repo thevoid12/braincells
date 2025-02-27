@@ -184,6 +184,7 @@ https://www.youtube.com/watch?v=eq6R6dxRuiU
 ---
 
 ## 4. Referrer-Policy:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 - When you surf from site to site on the internet, each site sends the next site a value called
 the “referrer,” which means a link to the page you came from. This is incredibly helpful for
 people analyzing their traffic, so they know where people are coming from.
@@ -196,3 +197,31 @@ versus thisisvoid.in/embarrassing-blog-post-title), or to not pass any value at 
 **Referrer-Policy: origin**
 - For example, a document at https://thisisvoid.com/page.html will send the referrer
 https://thisisvoid.com/.
+
+**Referrer-Policy: strict-origin-when-cross-origin**
+- This setting will send only the protocol and domain if the user is leaving your domain. Within your domain it passes the entire path. This will serve most situations for non-sensitive websites
+
+---
+## 5. Strict-Transport-Security (HSTS):
+- This security header forces the connection to be HTTPS (encrypted), even if the user attempted to connect to the website via HTTP.
+- Users, including attackers, cannot downgrade to HTTP
+(unencrypted); the browser will force it to switch to HTTPS before loading any data.
+- so all the usual stuff for https (like certificates) needs to be  there in place 
+- This certificate will be used as part of the
+encryption process, and you cannot turn on HSTS without one. You will want to get one called a “wildcard” certificate if you have subdomains.
+---
+## 6. Feature-Policy:
+- this is the newest security header supported by modern browsers. With
+the advent of HTML 5 and many cool new features in more modern browsers, this security
+header allows or disallows these new types of features for your web application.
+- eg: Feature-Policy: camera 'none'; microphone 'none'; speaker 'self'; vibrate 'none';
+geolocation 'none'; accelerometer 'none'; ambient-light-sensor 'none'; autoplay
+'none'; encrypted-media 'none'; gyroscope 'none'; magnetometer 'none'; midi 'none';
+payment 'none'; picture-in-picture 'none'; usb 'none'; vr 'none'; fullscreen *
+
+- **none:** Not allowed at all
+- **self:** Allowed but only your own domain can use/call this feature
+- **`*:`** Any domain can use/call this feature
+- **<origin(s)>:** This feature is allowed for specific URLs
+- When in doubt, be more restrictive,
+not less. Your users will thank you.
