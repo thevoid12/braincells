@@ -33,3 +33,6 @@ you release code to production. try building this pipeline into your ci/cd
 
 ### Security Headers: Seatbelts for Web Apps
 - [security headers](security_headers.md)
+
+### Securing Your Cookies
+- [secure cookies](secure_cookies.md)
