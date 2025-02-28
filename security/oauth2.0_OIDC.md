@@ -97,7 +97,7 @@ grant_type=authorization_code
 
 ## OAuth 2.0 is for Authorization, Not Authentication  
 
-- OAuth was never designed for **authentication**—it was designed for **authorization**.  
+- OAuth was never designed for **authentication** it was designed for **authorization**.  
 - OAuth 2.0 checks the **scope** of an authenticated user (which is authorization).  
 - It uses **access tokens** to grant access to resources. These tokens are short-lived and scoped to specific permissions (e.g., read-only access to emails).  
 - OAuth 2.0 does **not inherently verify the user’s identity**; it only ensures that the application has permission to access requested resources.  
@@ -114,6 +114,23 @@ grant_type=authorization_code
 #### 3. Inconsistency in Authentication Implementation  
 - OAuth 2.0 does not define how user information (e.g., name, email) should be retrieved, leading to inconsistencies.  
 - Different platforms implement their own authentication layers on top of OAuth, which is **not the standard practice**.  
+
+Let's consider an example:
+- Suppose your app allows users to sign in using Google and view their private dashboard.
+- If you only use OAuth:
+The user authorizes your app to access their Google Contacts API.
+- Google sends an Access Token to your app.
+- Your app can use this access token to fetch contacts from Google.
+- However, this access token does not prove who the user is. it only grants permission to access data.
+- Anyone who gets the Access Token (attacker or legitimate user) can access the Google Contacts API without proving their identity.
+- Now, suppose you integrate only OAuth for your client app authentication:
+  - The user authorizes your app to access their Google Profile API.
+  - Google sends an Access Token.
+  - Your app uses this token to fetch the user's profile information (like name and email).
+  - Based on this fetched data, your app assumes the user is authenticated.
+  - he access token does not guarantee that the user requesting the profile is the real user. it only shows that someone authorized the app.
+  - If an attacker gets the access token, they can fetch the same user profile data without proving their identity.
+  - The app is simply trusting the API response without verifying if the token really represents the user.
 
 ---
 
@@ -143,7 +160,61 @@ To solve the problem of **needing user identity verification**, **OIDC** adds an
 | **Use Case**            | Accessing Google Drive or Gmail           | Logging into a website using "Sign in with Google" |  
 
 ![OIDC Flow](img/4.png)  
+---
+##  Reason why oauth isnt enough for authentication and Combination of oauth +oidc is the way to go
+- The flow goes like this:
+- User logs in via Google or whatever identity provider. for this example we will use google.
+- Google (OIDC Provider) authenticates the user.
+- Google sends two tokens to your app:
+  - Access Token (for accessing Google APIs like Contacts or Calendar)
+  - ID Token (for authenticating the user identity)
+  - The ID Token contains:
+  sub: Unique user ID (Google's internal user ID)
+  email: User's email address
+  name: User's name
+  iat & exp: Token issued time & expiry time
+  Other user details
+  - our app backend will verify the jwt id token 
+  - if valid we authenticate.
 
+#### Why Is the ID Token Trustworthy?
+- The ID Token is digitally signed by Google using a private key.
+- Your backend can verify this signature using Google's public keys.
+- If the signature is valid, you know:
+  - The token is not tampered.
+  - The token is issued by Google.
+  - The user identity is genuine.
+#### What Happens if Someone Steals the Access Token?
+- **if we have only implemented oauth:**
+  - The access token can be used to access APIs but does not prove user identity.
+  - The access token can be granted to any client app that the user has authorized, not necessarily your app.
+  - The access token does not contain identity information like email or user ID.
+  - Resource servers using the access token do not verify the user's identity, only the token's validity.
+  - so if you have this access token you can get into the system because you are authorized
+
+- **if we have implemented oidc on top of oauth:**
+  - The access token alone cannot be used to prove identity.
+  - The attacker would need the ID Token + private key verification to impersonate the user
+  - this id token is generated using the scope openid and it is generated only once. just at the time of login. we cannot generate again with just the access token. so if someone gets our access token since they cant get out id token we are safe with oidc.
+- Access Token and ID Token Are Issued Separately
+- The Access Token is meant for API resource access (like Google Contacts or Calendar). this is oauth flow.
+- The ID Token is only issued during the initial OIDC authorization flow, specifically when the openid scope is requested.
+- The ID Token is not retrievable via any API endpoint. it's only given once during the login flow.
+- Access Token Is for APIs, Not Identity
+- Access tokens are typically sent to resource servers (like Google Contacts API).
+- Resource servers never return ID Tokens. they only allow access to the requested resources. which is the oauth flow.
+
+#### What If the Attacker Steals Both Tokens?
+Yes, if the attacker steals both the Access Token and ID Token simultaneously, they can access the app for the ID Token's lifetime (5-10 mins).
+
+However, this risk is minimized by:
+- Short expiration of ID Tokens.
+- Backend verification of signature, audience, and expiration on every request.
+- OIDC providers often include:
+  - Nonce (Random value to prevent token reuse)
+  - aud claim (Token is valid only for the app that requested it)
+  - iat claim (Issued At time)
+  - If the attacker reuses the same ID Token later, the nonce check will block the request.
 ---
 
 ## Refresh Tokens  
