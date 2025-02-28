@@ -115,3 +115,73 @@ identifiable information (PII) should not be logged.
 expressions (regex), and anything not matching your expression is not allowed. For
 example, if you wanted to allow only a–z and A–Z for a username, you could use this
 expression: ^[a-zA-Z]{1,10}$.
+---
+### Parameterized Queries
+- When we use parameterized queries (in SQL they are called stored procedures), we send parameters and the name of the query we want to run to the database, rather than creating a line of code by concatenating user input to create a string and then sending it to the database as a command.
+- The difference is that with parameterized queries if an attacker attempts to add their own code to via user input, the application will send it in one of the parameters, and it will not work. This is because the parameters are interpreted by the database as data, never as code, which makes injection attacks nearly impossible.
+- When an application concatenates strings of user input and then sends it to the database
+directly as a command, this is called “inline SQL,” in the SQL language. Writing inline SQL
+creates a potential SQL Injection vulnerability. so always use parameterized sql queries
+---
+### Requirement Checklist
+Requirements Checklist
+Below is a checklist that you can use for all your web application projects. All of these
+requirements can apply to any web application, and I suggest you include them all as a
+minimum, plus add your own that fit your unique business needs.
+- [ ] Encrypt all data at rest (while in the database).
+- [ ] Encrypt all data in transit (on its way to and from the user, the database, an API, etc.).
+- [ ] Trust no one: validate (and sanitize if specialize circumstances apply) all data, even
+from your own database.
+- [ ] Encode (and escape if need be) all output.
+- [ ] Scan all libraries and third-party components for known vulnerabilities before use,
+and regularly after use (new vulnerabilities and versions are released all the time).
+- [ ] Use all applicable security headers.
+- [ ] Use appropriate secure cookie settings.
+- [ ] Classify and label all data that your application will store, collect, or create.
+- [ ] Hash and salt all user passwords. Make the salt at least 28 characters.
+- [ ] Store all application secrets in a secret store.
+- [ ] Have all people on your team use password managers and never reuse passwords.
+- [ ] Turn on MFA for all important accounts.
+- [ ] Do not force password changes on a schedule, but only after a breach or suspicious
+activity.
+- [ ] Only allow public-facing (internet) sites to be accessible via HTTPS. Redirect from
+HTTP to HTTPS. Ideally this would be applied to both internal and external
+applications.
+- [ ] Ensure you are using the latest version of TLS for encryption (currently 1.3).
+- [ ] Never hard code anything. Ever.
+- [ ] Never put sensitive information in comments. This includes connection strings and
+passwords; those belong in a secret store.
+- [ ] Use the security features within your framework; for instance,
+cryptography/encryption, session management features, or input sanitization
+functions. Never write your own if your framework provides them.
+- [ ] Use only the latest version (or the one before) of your framework and keep it up to
+date. Technical debt = security debt.
+- [ ] If performing a file upload, ensure you are following the advice from OWASP for this
+highly risky activity. This includes scanning all uploaded files with a scanner such as
+AssemblyLine, available for free from the Communications Security Establishment of
+Canada (CSE).
+- [ ] Ensure all errors are logged (but do not log sensitive information), and if any security
+errors happen, trigger an alert.
+- [ ] Ensure all input validation (and sanitization) is performed server side, using an
+approved list or accepted list (not a block list) approach.
+- [ ] Ensure security testing is performed on your application before being released 
+- [ ] Perform threat modeling on your application before being released.
+- [ ] Ensure all errors provide generic information to the user, never information from a
+stack trace, query fail, or other technically specific information.
+- [ ] Define specifics on role-based access in the project requirements.
+- [ ] Only use parameterized queries, never inline SQL/NOSQL.
+- [ ] Do not pass variables that are of any importance in the URL parameters.
+- [ ] Ensure the application enforces the security principle of least privilege, especially in
+regard to accessing the database and APIs.
+- [ ] Minimize your attack surface whenever possible.
+- [ ] Allow users to cut and paste into the password field, which will allow for use of
+password managers. Disable password autocomplete features in browsers, to ensure
+users do not save their passwords into the browser.
+- [ ] Disable caching on pages that contain sensitive information. While the Cache HTTP
+header is not technically a security header, it can be used to enforce this requirement.
+- [ ] Ensure passwords for your application’s users are long, but not necessarily complex.
+The longer the better; encourage use of passphrases.
+- [ ] Do not force users to change their passwords after a certain amount of time, unless a
+breach is suspected.
+- [ ] Verify that new user’s passwords have not previously been in a breach by using a
+service designed for such a task.
