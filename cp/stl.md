@@ -8,7 +8,8 @@ To excel in competitive programming with C++, mastering the Standard Template Li
 |-------------------------|---------------------------------|---------------------|-----------------------------------------------------------------------------|-----------------------------------------------|
 | **`std::vector`**        | `push_back()`                  | O(1)                | `vector<int> v = {1, 2}; v.push_back(3);`                                   | Dynamic arrays, frequent access               |
 | `<vector>`              | `pop_back()`                   | O(1)                | `v.pop_back();`                                                             |                                               |
-|                         | `insert()`/`erase()`           | O(n)                | `v.insert(v.begin() + 1, 5);`                                               |                                               |
+|                         | `insert()`/`erase()`           | O(n)                | `v.insert(v.begin() + 1, 5);  vec1.insert(vec1.end(), vec2.begin(), vec2.end());
+`                                               |                                               |
 |                         | Random access (`v[i]`)         | O(1)                | `int x = v[0];`                                                             |                                               |
 | **`std::deque`**         | `push_front()`/`push_back()`   | O(1)                | `deque<int> dq; dq.push_front(10);`                                         | Sliding window, double-ended operations       |
 | `<deque>`               | `pop_front()`/`pop_back()`     | O(1)                | `dq.pop_back();`                                                            |                                               |
