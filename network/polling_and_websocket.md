@@ -30,6 +30,8 @@
 ---
 ### Web socket:
 good video: https://www.youtube.com/watch?v=xTR5OflgwgU
+good video in go implementation: https://programmingpercy.tech/blog/mastering-websockets-with-go/
+
 - very common in realtime system
 - stateful 
 - persistent connection between client and the server
