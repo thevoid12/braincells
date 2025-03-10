@@ -57,3 +57,24 @@
 - Read requests can return stale data if they hit a node that hasn’t received the latest write — eventual consistency.
 - If the read hits a QUORUM, it increases the chances of returning the latest data.
 - Cassandra uses read repair and gossip protocols to eventually bring all replicas in sync.
+
+####  Eventual Consistency in Reddis
+- Redis follows a master-slave (primary-replica) replication model.
+- In Redis Cluster, data is sharded across multiple masters, each having replicas.
+##### Consistency Model:
+- Asynchronous replication from master to replicas.
+- There is no quorum-based read/write mechanism like Cassandra or DynamoDB.
+- The master node (also called primary) does not wait for the replicas (secondary nodes) to confirm that they have received and stored the data before confirming the write operation to the client.
+  - The master writes the data.
+  - It immediately acknowledges success to the client.
+  - Then, in the background, it sends that data to the replica nodes.
+  - If the replicas are slow, lagging, or temporarily unavailable — the master doesn’t wait. It continues serving new requests.
+- they do this form for replication as a tradeoff for speed
+
+##### How it works:
+- Writes go to the master, and then the changes are asynchronously replicated to replicas.
+- If a read hits a replica, it might get stale data until replication catches up.
+- Failover: Redis Sentinel or Redis Cluster can promote a replica to master — but depending on replication lag, data loss is possible.
+##### Eventual Consistency Pattern:
+
+- The key principle is: eventual consistency is achieved via replication lag reads from replicas may lag behind writes. because of this asyncronous nature of replication we may not be 100% sure that our data is replicated so eventually consistent
