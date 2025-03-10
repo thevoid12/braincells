@@ -76,5 +76,8 @@
 - If a read hits a replica, it might get stale data until replication catches up.
 - Failover: Redis Sentinel or Redis Cluster can promote a replica to master — but depending on replication lag, data loss is possible.
 ##### Eventual Consistency Pattern:
-
 - The key principle is: eventual consistency is achieved via replication lag reads from replicas may lag behind writes. because of this asyncronous nature of replication we may not be 100% sure that our data is replicated so eventually consistent
+- Strong consistency = accuracy first, speed second
+- Eventual consistency = speed first, accuracy eventually
+- BASE model helps systems scale easily, while ACID helps keep data precise and reliable
+- Tunable consistency (like in Cassandra) gives a flexible middle ground between speed and correctness.
