@@ -2,7 +2,7 @@
 
 ### input validation flow chart:
 ![input validation](../img/6.png)
-
+- always use safe html for id's shown in ui
 ### Session management
 - Use the built-in session management implementation in your framework, if one exists.
 - The session ID should have an expiration date and/or time; it cannot last forever, even
