@@ -3,6 +3,54 @@
 - By generalizing, interfaces let us write functions that are more flexible and adaptable because they are not tied to the details of one paticular implementation.
 - In Go, an interface is a type that defines a set of method signatures. Any type that implements all of the methods defined in the interface is said to satisfy the interface. This allows you to write code that is generic and can be used with any type that satisfies the interface.
 
+- example
+```
+
+type IsValid interface {
+	CheckValidity()
+}
+
+type risk struct {
+	ID uuid.UUID
+}
+
+type audit struct {
+	AuditID uuid.UUID
+}
+
+type random struct {
+	AuditID uuid.UUID
+}
+
+func (r *risk) CheckValidity() {
+	fmt.Printf("validity checked for risk")
+}
+
+func (r *audit) CheckValidity() {
+	fmt.Printf("validity checked for audit")
+}
+
+// this function is the main function which we will expose.
+//
+//	we pass value to this test function, based on the interface type it chooses the right test validity
+func test(v IsValid) {
+	v.CheckValidity()
+}
+func TestInterface(t *testing.T) {
+	r := &random{}
+	t1 := &risk{
+		ID: "",
+	}
+	a1 := &audit{}
+
+	test(t1)
+	test(r) // error because random doesnt satisfy the interface
+	test(a1)
+}
+
+```
+
+- example 2
 ```
 package main
 
@@ -242,7 +290,7 @@ func main() {
 
 ```
 
-- final example:
+ - final example:
 
 ```
 package main
@@ -325,6 +373,5 @@ func main() {
 
 // 5. Mocking for Testing:
 //    - You can create a mock struct that implements test, enabling unit tests without real data.
-
 
 ```
