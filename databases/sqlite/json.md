@@ -28,6 +28,7 @@ INSERT INTO test (jsoncol) VALUES (
 	select * from test where json_extract(jsoncol,'$.1.id')= "a92e3a5d-33b7-4d97-aec7-93c36b16411f";
 SELECT jsoncol->>'$.1.id' FROM test;
 select * from test where jsoncol->>'$.1.id'= "a92e3a5d-33b7-4d97-aec7-93c36b16411f";
+select * from test where jsoncol->>'$.1'->>'$.id'= "a92e3a5d-33b7-4d97-aec7-93c36b164111";
 ```
 ### ->> Operator (Extract as String)
 - Returns the extracted value as a plain SQL string (TEXT).
