@@ -1,4 +1,6 @@
 # json in sqlite
+
+https://www.sqlite.org/json1.html#jmini
 ```sql
 create table test (
 jsoncol TEXT);
