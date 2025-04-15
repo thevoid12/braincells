@@ -24,6 +24,14 @@ https://www.youtube.com/watch?v=GQtsIe6ZgH4
 ssh-keygen -f /etc/ssh/ssh_ca -C "Certificate Authority" -N ""
 
 ```
+The flags -C and -N mean:
+
+**-C** "Certificate Authority":
+This adds a comment to the key. It's typically used to help identify the purpose of the key. In this case, the comment is "Certificate Authority". This is just metadata and doesn't affect functionality.
+
+**-N** "":
+This sets the passphrase for the private key. An empty string "" means no passphrase is set, so the private key will not be encrypted. This is often used for automation, but it has security implications—anyone who gets the private key can use it without needing a password.
+
 **/etc/ssh/ssh_ca:** Path to the CA private key.
 **/etc/ssh/ssh_ca.pub:** CA public key.
 
