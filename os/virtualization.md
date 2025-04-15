@@ -5,7 +5,7 @@ goated video: https://www.youtube.com/watch?v=zLJbP6vBk2M
 - we sepearate the os out of the physical hardware so that they can  move around
 
 ## Evolution of Virtualization:
-### bare metal:
+### 1.bare metal:
 ![bare metail](img/1.png)
 - simple and easy way. only way before virtualization
 - bare metal is installing everything directly on our physical server
@@ -18,7 +18,7 @@ goated video: https://www.youtube.com/watch?v=zLJbP6vBk2M
   - Very slow provisioning & decommissioning: because of all these complexity it takes time to provision and deprovision
 ![alt text](img/2.png)
 
-### virtualization
+### 2.virtualization
 ![alt text](img/3.png)
 - if we wanna move to a new physical server, we need to set up the same old hypervisor and that all we can copy the os in quickly in minutes unlike bare metal where everything needs to be setup from scratch based on the new physical hardware
 - here we can run mulitple instances of different os on top of the hypervisor. 
@@ -69,3 +69,49 @@ note that this will create a problem if everything tries to exceed
 - Slower than Type 1 due to extra OS layer.
 - Host OS + hypervisor + guest OS = more RAM/CPU usage.
 - Vulnerable if host OS is compromised.
+### 3.containers
+vms vs container: https://www.youtube.com/watch?v=eyNBf1sqdBQ
+![alt text](img/7.png)
+
+#### disadvantages in vms:
+- too heavy coz multiple os been installed
+- drinks lot of ram because of the same reason of multiple os
+- takes time to set up (minutes) the application because of the same reason (os need to boot up and then application needs to boot up)
+- these can be solved by containers
+- containers packs all the application run requirements into a container and runs on os
+- Containers virtualize at the OS level, not the hardware level. Instead of spinning up an entire guest OS, containers share the host kernel but isolate user space.
+- A container is a lightweight, standalone, executable package that includes: 
+  - our application
+  - Its dependencies
+  - Environment variables
+  - System tools and libraries
+- But it shares the host OS kernel instead of using its own, unlike VMs.
+
+| **Feature**        | **Container**                                 | **Virtual Machine**                          |
+|--------------------|-----------------------------------------------|----------------------------------------------|
+| **Boot Time**      | Milliseconds                                  | Seconds to minutes                           |
+| **Overhead**       | Very low                                      | High (full OS per VM)                        |
+| **Kernel Usage**   | Shares host kernel                            | Separate kernel for each VM                  |
+| **Isolation**      | OS-level (namespaces, cgroups)                | Hardware-level (hypervisor)                  |
+| **Portability**    | High (consistent across platforms)            | Medium (depends on VM config)                |
+| **Security**       | Moderate (depends on kernel isolation)        | High (strong isolation)                      |
+| **Ideal Use Case** | Microservices, dev/test, CI/CD                | Legacy apps, OS testing, monoliths           |
+
+Sure — let’s break down the **core components of containers**. These are the building blocks that make containers work efficiently and portably.
+
+---
+
+##  Core Container Components
+
+| **Component**     | **Description**                                                                 |
+|-------------------|---------------------------------------------------------------------------------|
+| **Image**         | A snapshot of the application and its dependencies (read-only).                 |
+| **Container**     | A running instance of an image (read-write layer on top of image).              |
+| **buildScript**    | A script that defines how to build a container image(Docker file).                           |
+| **Container Engine** | Manages images, containers, networks, volumes (e.g., Docker, containerd).    |
+| **Runtime**       | The low-level tool that creates and runs containers (e.g., `runc`).             |
+| **Registry**      | A service to store and distribute container images (e.g., Docker Hub, GHCR).    |
+| **Volumes**       | Persistent storage for containers (data survives container restarts).           |
+| **Networks**      | Isolated virtual networks connecting containers (bridge, host, overlay, etc.).  |
+
+- disadvantage of container are all application shares the same os. so if os fails everything crashes and very application uses the same os since os layer is common. which can be an disadvantage if you want os level isolation
