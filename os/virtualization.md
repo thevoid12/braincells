@@ -69,15 +69,16 @@ note that this will create a problem if everything tries to exceed
 - Slower than Type 1 due to extra OS layer.
 - Host OS + hypervisor + guest OS = more RAM/CPU usage.
 - Vulnerable if host OS is compromised.
-### 3.containers
-vms vs container: https://www.youtube.com/watch?v=eyNBf1sqdBQ
-![alt text](img/7.png)
-
 #### disadvantages in vms:
 - too heavy coz multiple os been installed
 - drinks lot of ram because of the same reason of multiple os
 - takes time to set up (minutes) the application because of the same reason (os need to boot up and then application needs to boot up)
 - these can be solved by containers
+
+### 3.containers
+vms vs container: https://www.youtube.com/watch?v=eyNBf1sqdBQ
+![alt text](img/7.png)
+
 - containers packs all the application run requirements into a container and runs on os
 - Containers virtualize at the OS level, not the hardware level. Instead of spinning up an entire guest OS, containers share the host kernel but isolate user space.
 - A container is a lightweight, standalone, executable package that includes: 
@@ -115,3 +116,6 @@ Sure — let’s break down the **core components of containers**. These are the
 | **Networks**      | Isolated virtual networks connecting containers (bridge, host, overlay, etc.).  |
 
 - disadvantage of container are all application shares the same os. so if os fails everything crashes and very application uses the same os since os layer is common. which can be an disadvantage if you want os level isolation
+
+- we can combine vms+ containers set up multiple vms on top of hypervizors and run containers in them 
+- these containers are orcastrated using technology like kubernetes
