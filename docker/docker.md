@@ -86,7 +86,20 @@ ping google.com -c 1 # Success!
 mounting volume
   ![alt text](images/4.png)
  b) bind mount:
+- we can mount a directory from the host system using a bind mount
+```bash
+# Create a container that mounts a directory from the host filesystem into the container
+docker run  -it --rm --mount type=bind,source="${PWD}"/my-data,destination=/my-data ubuntu:22.04
+# Again, there is a similar (but shorter) syntax using -v which accomplishes the same
+docker run  -it --rm -v ${PWD}/my-data:/my-data ubuntu:22.04
 
+echo "Hello from the container!" > /my-data/hello.txt
+
+# You should also be able to see the hello.txt file on your host system
+cat my-data/hello.txt
+exit
+```
+- volume mount is preferred and it is the default
 ---
 7. to list all the volumes
 ```bash
