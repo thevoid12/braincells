@@ -20,6 +20,19 @@ A Docker container has multiple states:
 - by default docker is volume mount
  - tmpfs mount does not persist the data after the container exits, and is instead used as a temporary store for data you specifically DON'T want to persist
 
+### objects
+[source](https://courses.devopsdirective.com/docker-beginner-to-pro/lessons/10-interacting-with-docker-objects/01-images)
+- docker mostly consists of 4 objects or components which we need to set up
+  - image
+  - containers
+  - volume
+  - network
+
+### tips and tricks
+- for dev environment bind mount the source file into the container so that any change in source code will immideately be displayed (hot reloading)
+- have 2 docker compose file , one for production and one for dev. build the image such a way that the dockerFile should solve both dev and prod
+
+
 ##  Commands:
 1. run an container (which includes pulling the image if not exists)
 ```bash
@@ -120,3 +133,15 @@ docker start void-ubuntu-container
 - You'll see output from the container and can interact if the container has a foreground process (like a shell or sleep, etc.).
 - To detach safely, use Ctrl+P then Ctrl+Q.
 ---
+9. common docker run options
+
+- -d
+  - -d (Detach): Run a container in the background.
+  ```bash
+  docker run -d ubuntu sleep 5
+  ```
+---
+- multistage docker build
+- cache mount 
+- size and speed
+- buildx
