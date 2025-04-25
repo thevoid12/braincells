@@ -27,6 +27,21 @@ A Docker container has multiple states:
   - containers
   - volume
   - network
+### build context
+The build context is the directory you provide to Docker when running the docker build command. This directory and its contents are available to the Dockerfile during the build process, meaning that when you use COPY, ADD, or similar commands in the Dockerfile, Docker looks for the files relative to the build context.
+
+eg: When You Run docker build -t godocker:v1 -f ./docker_images/Dockerfile.golang .
+Here’s what’s happening step by step:
+
+Context (.): The . at the end of the command means "use the current directory as the build context." So when you run docker build from a directory (say project/), the contents of project/ are available to Docker as the build context.
+
+Dockerfile Location (-f ./docker_images/Dockerfile.golang): This specifies the path to the Dockerfile. In this case, it's located in the docker_images/ folder. Docker will use this specific Dockerfile to build the image.
+- so make sure the build context covers everyfile and advisable to be in root so that the image file understands it
+### combining docker compose
+docker compose -f $(DEV_COMPOSE_FILE) -f $(DEBUG_COMPOSE_FILE) up --build
+- You are combining multiple Docker Compose files (DEV_COMPOSE_FILE and DEBUG_COMPOSE_FILE) into a single configuration using override behavior.
+- If both files define a service with the same name (e.g., golang), the configuration from the second file (DEBUG_COMPOSE_FILE) will override if the same command exists or merge into the first.
+- second compose will override which is already there and the not common ones are retained from first file
 
 ### tips and tricks
 - for dev environment bind mount the source file into the container so that any change in source code will immideately be displayed (hot reloading)
@@ -141,7 +156,45 @@ docker start void-ubuntu-container
   docker run -d ubuntu sleep 5
   ```
 ---
+10. docker compose
+```bash
+docker compose up -d
+docker-compose -f docker-compose-dev.yml up -d # if we use some other name for docker-compose
+
+```
+remove everything including volume
+```bash
+docker compose down -v
+```
+---
+11. enter into running container 
+```bash
+docker exec -it <container name or id> bash
+```
 - multistage docker build
+https://docs.docker.com/build/building/multi-stage/
+
+---
+12. docker images:
+- list all images
+```bash
+docker image ls
+```
+- remove image
+```bash
+docker rmi <image name:tag or image id>
+```
+---
+13. docker container logs
+```bash
+docker logs --details <container id or container name:tags>
+```
+---
+14. export and save docker image/ load
+```bash
+docker save  -o image.tar <image id or name:tag>
+ docker load -i image.tar
+```
 - cache mount 
 - size and speed
 - buildx
