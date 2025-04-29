@@ -1,0 +1,2 @@
+- if it is a subarray most probably it involes fixed length or variable length sliding window
+- if it is a sorted array and tc is less it is mostly binary search
