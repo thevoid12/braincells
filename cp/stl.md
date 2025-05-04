@@ -238,3 +238,13 @@ sort(vec.begin(), vec.end(), [](auto &a, auto &b) {
     return a.second > b.second; // Descending
 });
 ```
+# find number of digits
+```cpp
+floor(log10(x))+1
+or (int)(log10(x))+1 # floors internally 
+```
+
+# convert int to string
+```cpp
+to_string(num)
+```
