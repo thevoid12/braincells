@@ -232,3 +232,9 @@ floor(4.09)= 4
 ```cpp
 int max = *max_element(nums.begin(),nums.end());
 ```
+# sort a array of  pair by value by value in desc order:
+```cpp
+sort(vec.begin(), vec.end(), [](auto &a, auto &b) {
+    return a.second > b.second; // Descending
+});
+```
