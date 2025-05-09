@@ -28,7 +28,11 @@ A Docker container has multiple states:
   - volume
   - network
 ### build context
-The build context is the directory you provide to Docker when running the docker build command. This directory and its contents are available to the Dockerfile during the build process, meaning that when you use COPY, ADD, or similar commands in the Dockerfile, Docker looks for the files relative to the build context.
+- To resolve relative paths inside the Dockerfile
+
+- To determine what files get sent to Docker during docker build
+
+- The build context is the directory you provide to Docker when running the docker build command. This directory and its contents are available to the Dockerfile during the build process, meaning that when you use COPY, ADD, or similar commands in the Dockerfile, Docker looks for the files relative to the build context.
 
 eg: When You Run docker build -t godocker:v1 -f ./docker_images/Dockerfile.golang .
 Here’s what’s happening step by step:
@@ -42,12 +46,26 @@ docker compose -f $(DEV_COMPOSE_FILE) -f $(DEBUG_COMPOSE_FILE) up --build
 - You are combining multiple Docker Compose files (DEV_COMPOSE_FILE and DEBUG_COMPOSE_FILE) into a single configuration using override behavior.
 - If both files define a service with the same name (e.g., golang), the configuration from the second file (DEBUG_COMPOSE_FILE) will override if the same command exists or merge into the first.
 - second compose will override which is already there and the not common ones are retained from first file
-
+services:
+  db:
+    container_name: brainwars_pgsql
+  golang:
+    dsfhsdkfhksdjh
+db = service name (this becomes the Docker DNS hostname that other services in the network to use)
+brainwars_pgsql = actual container name (visible via docker ps, for humans)
+- When your golang service starts, Docker Compose:
+  - Connects both containers (golang and db) to the same default network.
+  -Sets up internal DNS so that db resolves to the IP 
+# your conatiners are in a private neighborhood while using docker compose
+- When you're using Docker Compose:
+  - Each service (like db or golang) is like a house in a private neighborhood (Docker network).
+  - Inside that neighborhood, you don't refer to houses by their fancy house names (container names) — you refer to them by their service names.
 ### tips and tricks
 - for dev environment bind mount the source file into the container so that any change in source code will immideately be displayed (hot reloading)
 - have 2 docker compose file , one for production and one for dev. build the image such a way that the dockerFile should solve both dev and prod
-
-
+- All relative paths in docker-compose.yml are relative to the location of the docker-compose.yml file itself.
+- named volume are not deleted when you do docker compose command. we need to explicitly remove the volume.
+- 
 ##  Commands:
 1. run an container (which includes pulling the image if not exists)
 ```bash
@@ -160,6 +178,7 @@ docker start void-ubuntu-container
 ```bash
 docker compose up -d
 docker-compose -f docker-compose-dev.yml up -d # if we use some other name for docker-compose
+docker-compose -f ./docker/docker-compose-dev.yaml up --build # to explicitly build the image not take from cache
 
 ```
 remove everything including volume
@@ -194,6 +213,16 @@ docker logs --details <container id or container name:tags>
 ```bash
 docker save  -o image.tar <image id or name:tag>
  docker load -i image.tar
+```
+
+---
+15. volume
+Docker volumes are stored on your host machine
+```bash
+docker volume ls
+docker volume rm <volume-name>
+docker compose down -v # add -v to remove the volume corresponds to docker compose
+docker volume inspect pg_data
 ```
 - cache mount 
 - size and speed
