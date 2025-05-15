@@ -5,4 +5,8 @@
 
 sample example:
 - [1.simple example](./example-1/main.go)
-- 
+
+
+
+- Scope is static, based on the code at compile time
+- Lifetime depends on program execution (runtime)
