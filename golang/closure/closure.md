@@ -5,6 +5,9 @@
 
 sample example:
 - [1.simple example](./example-1/main.go)
+- [2.example with arguments](./example-2/main.go)
+- [3.mutable closure and gc](./example-3/main.go)
+- [4.real example](./example-4/main.go)
 
 
 
