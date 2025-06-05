@@ -77,6 +77,8 @@ ssh -i ~/.ssh/my-ec2-key -o CertificateFile=/path/to/ssh-certificate-cert.pub ec
 
 ```bash
 ssh -i void-test-ssh-key -o CertificateFile=void-test-ssh-user-cert.pub void@192.168.0.112
-```  
 
+void@void-xps137390:~/Voidzone/secrets$ chmod 600 brainwars-key.pem
+void@void-xps137390:~/Voidzone/secrets$ ssh -i brainwars-key.pem ec2-user@3.110.173.177
+```
 ---

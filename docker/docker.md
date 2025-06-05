@@ -181,7 +181,7 @@ docker-compose -f docker-compose-dev.yml up -d # if we use some other name for d
 docker-compose -f ./docker/docker-compose-dev.yaml up --build # to explicitly build the image not take from cache
 
 ```
-remove everything including volume
+using -v flag will remove everything including volume
 ```bash
 docker compose down -v
 ```

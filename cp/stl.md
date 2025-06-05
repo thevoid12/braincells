@@ -59,7 +59,10 @@ floor(4.09)= 4
   sort(v.begin(), v.end()); // Sort: {1, 3, 4, 5}
   cout << v[2];            // 4 (access)
   ```
-
+- declare a 2d dp with -1
+  ```cpp
+  vector<vector<int>> dp(rows, vector<int>(cols, -1));
+  ```
 #### **Pair** (`#include <utility>`)
 - Stores two elements.
 - **Example**:
@@ -248,3 +251,10 @@ or (int)(log10(x))+1 # floors internally
 ```cpp
 to_string(num)
 ```
+
+---
+# modulo arithmetic
+- (a+b)% m = ((a%m)+(b%m))%m
+- (a-b)%m = (((a%m)-(b%m))+m) %m
+- (a*b)%m = ((a%m)*(b%m))%m
+---
