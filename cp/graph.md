@@ -1,0 +1,6 @@
+- bfs: use queue 2 while loops
+- dfs: go deep and search
+- detect cycle in undirected graph:
+  - bfs:queue<node,parent>,have a visited except parent if again visited error
+- detect cycle in directed graph:
+  - bfs: khan's algorithm for topological sort. if cannot do khan's algo then there is a cycle. (finding indegree and traversing adding to queue if indegree is 0)

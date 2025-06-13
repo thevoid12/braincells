@@ -79,6 +79,10 @@ floor(4.09)= 4
   q.push(10); q.push(20);
   cout << q.front(); // 10
   q.pop();           // Remove 10
+  !q.empty()
+      // Accessing the front and back elements
+    cout << q.front() << endl;
+    cout << q.back();
   ```
 
 #### **Priority Queue** (`#include <queue>`)
