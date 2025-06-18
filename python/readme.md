@@ -2,4 +2,5 @@
 - i already know the base language so this will delve into details and some framework on top
 - i follow google's python style guide https://google.github.io/styleguide/pyguide.html
 - table of content
-  - oops introduction - [intro](./oops/class.py)
+  - python oops - reference https://www.pythontutorial.net/python-oop/
+    - oops introduction - [intro](./oops/class.py)

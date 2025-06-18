@@ -101,7 +101,7 @@ class Person:
     
 class Employee(Person):
     def __init__(self, name,age, job):
-        super().__init__(name,age) # super() is used to call the parent class's constructor. When using super(), you don’t pass self explicitly. Python handles that for you.
+        super().__init__(name,age) # The super() function allows a child class to call a method of the parent class. super() is used to call the parent class's constructor. When using super(), you don’t pass self explicitly. Python handles that for you.
         self.job = job
     
     def greet(self):
