@@ -1,6 +1,35 @@
 - bfs: use queue 2 while loops
 - dfs: go deep and search
+  - check if it is in the boundary if so dfs in that direction
+  - do the same dfs in all4 directions
+  - make sure you have a visited array to prevent coming back to same node
 - detect cycle in undirected graph:
+- - usually in bfs for undirected graph it is wise to track the parent in queue for not visiting again
   - bfs:queue<node,parent>,have a visited except parent if again visited error
 - detect cycle in directed graph:
   - bfs: khan's algorithm for topological sort. if cannot do khan's algo then there is a cycle. (finding indegree and traversing adding to queue if indegree is 0)
+- A bipartite graph is a type of graph where you can split the set of nodes into two groups such that:
+    - Every edge connects a node from Group A to a node in Group B
+    - No edge connects two nodes within the same group
+    - this can be solved by graph coloring. no two adjacent nodes has to be in same color
+    - linear graphs with no cycle are always bipartite because it is not possible to have 2 adjacent nodes with same color
+    - any graph with cycle whose cycle length is even is bipartite
+    - any graph with odd cycle length can never be bipartite
+    - A graph is considered bipartite if all its connected components are bipartite.
+        - So for disconnected graphs, you must:
+        - Check each connected component separately
+        - If any one of them is not bipartite, then the whole graph is not bipartite
+- to find the shortest distance from one node to all other node (which includes source node to a destination node) we use Dijkstra algorithm
+  - 2 popular way to solve it.
+  - 1. use a min heap prority queue and track the {distance,node} and update the distance array (set it to infinity first) if a distance is shorter remove
+  - 2. do the same with set but if you see an existing element you can remove that element if it is shorter eg [5]= 10 and you get a result of 8 through some other path. so now the set will have {10,5} in it which you cant erase in a priority queue but you can remove it in set and insert {8,5}. this is a very negkligible optimization
+  - note: dijkstra's wont work if the edges are in -ve
+- for negative edges to find the shortest path we cannot use dijkstra algorithm. so we use an algo called Bellman Ford Algorithm
+  - this algo works only in directed graph so if you get an undirected graph convert to directed graph of 2 sides (ie add botht he direction u,v,weight in consideration)
+  - here we do something called relaxation of node for n-1 times where n is the number of node
+  - create a distance array and set everything to infinite and source distance to zero. eg source =0, dist[0]=0 and all others are infinite
+  - {u,v,weight} we will check if(dist[u]+weight< dist[v]) if true similar to dikstra we will update the distance array which is initially set to inifnite
+  - do the same for all the {u,v,weight} edges n-1 times
+  - A negative cycle means the sum of all edge weights in a cycle is less than zero — individual negative edges don’t matter unless they form a cycle whose total sum is negative.
+  - this can also help in negative cycle detection. if it is a negative cycle, then we can identify that with bellman ford algo by running it one more time after n-1 times. if still it satisfies  if(dist[u]+weight< dist[v]) after n-1 times in the nth iternation it means there is a negative cycle
+  
