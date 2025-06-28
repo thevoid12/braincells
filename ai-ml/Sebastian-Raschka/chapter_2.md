@@ -2,7 +2,7 @@
 - visual representation: https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=1&t=3s 
  ## weight vs bais
 - Weight = “How important is this input?”. heavyly determines how the output will be.
-- Bias = “What should the output be when inputs are zero?” basal value. we can use it to fit into the range
+- Bias = “What should the output be when inputs are zero?” basal value. we can use it to fit into the range. suppose the bias is -10 then should should be more than 10 technically to activate
 - Both are learned by the model during training.
 ## single layer neural network
  ![example](../img/2.png)
@@ -35,7 +35,7 @@ epochs ( n_iter ), are the so-called hyperparameters (or
 tuning parameters) 
 
 ### gradient decent
-
+- local minima
 ### stochastic gradient descent
 
 ### Mini-batch gradient descent
