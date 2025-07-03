@@ -9,7 +9,7 @@ using namespace std
 
 ```cpp
 int main() {
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    std::vector<int> numbers = {1, 2, 3, 4, 5~~``};
 
     for (auto num : numbers) {
         cout << num << " ";
@@ -24,4 +24,9 @@ int main() {
         std::cout << *it << " ";
     }
 
+```
+
+## convert char to number
+```cpp
+c-'0'
 ```
