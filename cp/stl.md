@@ -244,6 +244,12 @@ int max = *max_element(nums.begin(),nums.end());
 sort(vec.begin(), vec.end(), [](auto &a, auto &b) {
     return a.second > b.second; // Descending
 });
+
+sort(p.begin(), p.end(), [](const auto &a, const auto &b) {
+    if (a.first != b.first)
+        return a.first > b.first; // Sort by frequency descending
+    return a.second < b.second;   // If frequency same, sort by value ascending
+});
 ```
 # find number of digits
 ```cpp
