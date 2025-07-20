@@ -268,3 +268,15 @@ to_string(num)
 - (a-b)%m = (((a%m)-(b%m))+m) %m
 - (a*b)%m = ((a%m)*(b%m))%m
 ---
+# string to integer
+```cpp
+stoi(string)
+- if you want to convert to any other base like convert a string to a binary number 
+stoi(string,initial pointer,base); 
+stoi(s,0,2); //base 2
+``` 
+# integer to string
+```cpp
+#include<string>
+to_string(n);
+```
