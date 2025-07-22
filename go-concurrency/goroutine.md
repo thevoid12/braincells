@@ -101,3 +101,46 @@ were created in, so we can access values outside the address space but caution t
       wg.Wait()
       fmt.Println(salutation)
 ```
+---
+1.  “Goroutines are not threads”
+Correct — a goroutine is not the same as an operating system (OS) thread.
+
+OS threads are managed by the operating system scheduler (Linux, Windows, etc.).
+
+Goroutines are managed by the Go runtime scheduler.
+
+Many goroutines can run on top of a small number of OS threads.
+
+This makes goroutines much more lightweight and cheaper to create and manage than threads.
+
+2. “Goroutines are not green threads either”
+Also correct, but let me explain why.
+
+ Green threads are threads that are entirely managed by the language runtime, not using OS threads at all.
+
+Goroutines do use OS threads under the hood, so they are not green threads in the traditional sense.
+
+However:
+
+Like green threads, they are scheduled by the language runtime (Go scheduler).
+
+Unlike green threads, they can run in parallel on multiple CPUs using multiple OS threads — thanks to the Go scheduler + OS cooperation.
+
+So yes, goroutines are somewhere in between OS threads and green threads.
+
+3. “They are a type of coroutine”
+Yes, goroutines are conceptually a type of coroutine.
+
+Let’s define what a coroutine is:
+
+A coroutine is a function that can pause execution (yield) and later resume from the same point — allowing cooperative multitasking.
+
+Now:
+
+Goroutines do not expose pausing/yielding explicitly like in Python async def or C++ coroutines.
+
+But internally, the Go scheduler can preempt and resume goroutines, which achieves similar results.
+
+So goroutines are "preemptive coroutines", unlike traditional coroutines that rely on cooperative yielding.
+
+So yes, goroutines fall under the coroutine family, just implemented differently.

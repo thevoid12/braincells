@@ -55,6 +55,10 @@ func (c *ConcurrentCounter) Increment() {
 - The **sync.RWMutex** in Go is an enhanced version of a Mutex that provides greater flexibility by distinguishing between read and write locks. Here's how it works conceptually:
   - **Reader Lock (RLock):** Multiple readers can acquire a read lock concurrently, as long as there is no writer holding the write lock.
   - **Writer Lock (Lock):** Only one writer can acquire the write lock, and when it does, no readers are allowed access until the writer releases the lock.
+  - Analogy: Library
+    - Imagine a book in a library.
+    - Read lock: Multiple people can read the book at the same time, but no one can edit it.
+    - Write lock: Only one person can edit the book. While editing, no one else can read or edit it.
    ``` go
           func main() {
           var rwMutex sync.RWMutex
