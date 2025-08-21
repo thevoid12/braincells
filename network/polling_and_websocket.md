@@ -38,10 +38,15 @@ good video in go implementation: https://programmingpercy.tech/blog/mastering-we
 - since there is a persistent connection, server can send data anytime it receives back to client
 - but in http think of it like a letter, you send a letter to server and the server immideately responds back with another letter as response but http server cant automatically respond when there is no request
 - working:
-step 1: enables tcp connection between client and server(tcp handshake)
-step 2: send a http req
-step3: the connection gets updated to websocket
-step 4: persistent web socket connection is established
+
+    step 1: enables tcp connection between client and server(tcp handshake)
+
+    step 2: send a http req
+
+    step3: the connection gets updated to websocket
+
+    step 4: persistent web socket connection is established
+
 - the drawback of websocket is horizontal scaling. this is because of the stateful nature of the connection. when you horizontally scale ie add new servers the existing state wont transient to the new machine
 - difference between **webrtc** and **web socket** is webrtc is udp so some data might be lost but websocket is tcp no data loss
-- room 
+- we can scale ws conn horizzontally by adding room in redis or kafka pub sub and use that to store connection details. with the connection details and room info we can forward the messages to the appropriate ws connection 

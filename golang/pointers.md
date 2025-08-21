@@ -52,3 +52,18 @@ func main() {
     &p = 3 // error: Cannot assign to &p because this is the address of variable a
 }
 ```
+But in Go:
+
+&T is the operator that produces a pointer.
+
+*T is the type of a pointer.
+```go
+Example:
+
+v := Vertex{3, 4}
+p := &v           // p has type *Vertex
+
+1``
+&v → gives you a *Vertex value (pointer to v).
+
+*Vertex → is the type of that pointer.
